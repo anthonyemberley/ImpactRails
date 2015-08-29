@@ -25,6 +25,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
+# Allow our service objects to have success blocks
+gem 'aldous'
+# Allow our controllers to submit json responses
+gem 'responders', '~> 2.0'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
