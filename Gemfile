@@ -30,6 +30,10 @@ gem 'responders', '~> 2.0'
 # Allows us to authenticate users using a header token
 gem 'devise'
 
+# The default server is Webrick, but puma is much faster 
+# because it can support multiple threads
+gem 'puma'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
