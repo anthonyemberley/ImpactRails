@@ -2,7 +2,7 @@ class Api::UsersController < Api::ApiController
 	USER_RESPONSE_KEY = "user"
 	skip_before_filter :authenticate_user_from_token, :only => [:create, :login]
 
-	def create
+	def sign_up
 		response = CreateUserService.new(create_user_params ).perform
 		if response.success?
 			@current_user = response.result
