@@ -29,6 +29,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'aldous'
 # Allow our controllers to submit json responses
 gem 'responders', '~> 2.0'
+# Allows us to authenticate users using a header token
+gem 'devise'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

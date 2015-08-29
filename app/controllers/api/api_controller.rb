@@ -4,10 +4,10 @@ module Api
 		before_filter :authenticate_user_from_token
 
 		def authenticate_user_from_token
-		    @user_auth_token = request.headers["API-TOKEN"].presence	#this will require tokens on headers
+		    @user_auth_token = request.headers["AUTHENTICATION-TOKEN"].presence	#this will require tokens on headers
 		    response = AuthenticateTokenService.new(@user_auth_token).perform
 		    if response.success?
-		    	@current_user = response.user
+		    	@current_user = response.result
 		    else 
 		    	render status: :unauthorized, json: {
 			    	errors: "Invalid Token You do not have access to this api"
