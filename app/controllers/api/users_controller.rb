@@ -1,6 +1,6 @@
 class Api::UsersController < Api::ApiController
 	USER_RESPONSE_KEY = "user"
-	skip_before_filter :authenticate_user_from_token, :only => [:create, :login]
+	skip_before_filter :authenticate_user_from_token, :only => [:sign_up, :login]
 
 	def sign_up
 		response = CreateUserService.new(create_user_params ).perform
@@ -47,6 +47,6 @@ class Api::UsersController < Api::ApiController
 	    def render_error(status,errors) 
 	    	render status: status, json: {
 		    	errors: errors
-		  	}
+			}
 	    end
 end

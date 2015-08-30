@@ -11,7 +11,7 @@ module Api
 		    else 
 		    	render status: :unauthorized, json: {
 			    	errors: "Invalid Token You do not have access to this api"
-			  	}
+				}
 		    end 
 		end
 	end
