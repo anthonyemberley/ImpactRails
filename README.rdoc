@@ -1,28 +1,9 @@
 == README
+This is the Rails API for the Impact app.
+For more information :https://github.com/impactapp/ImpactRails/wiki
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+==SETUP
+https://github.com/impactapp/ImpactRails/wiki/Getting-Set-Up
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+==USER
+https://github.com/impactapp/ImpactRails/wiki/User

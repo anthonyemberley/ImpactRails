@@ -3,7 +3,7 @@ class Api::UsersController < Api::ApiController
 	skip_before_filter :authenticate_user_from_token, :only => [:sign_up, :login]
 
 	def sign_up
-		response = CreateUserService.new(create_user_params ).perform
+		response = CreateUserService.new(create_user_params).perform
 		if response.success?
 			@current_user = response.result
 			render_default_user_response(@current_user)
@@ -39,9 +39,7 @@ class Api::UsersController < Api::ApiController
 
 	    '''RENDER'''
 	    def render_default_user_response(user)
-	    	render status: :ok , json: { 
-  				:result => user.as_json
-  			}
+	    	render status: :ok , json: user.as_json
 		end
 
 	    def render_error(status,errors) 
