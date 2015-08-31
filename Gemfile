@@ -33,6 +33,8 @@ gem 'devise'
 # The default server is Webrick, but puma is much faster 
 # because it can support multiple threads
 gem 'puma'
+# used to make calls to the facebook graph api
+gem 'fb_graph2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

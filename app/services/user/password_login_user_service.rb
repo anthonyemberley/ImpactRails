@@ -8,9 +8,9 @@ class PasswordLoginUserService < Aldous::Service
 	def perform
 		user = User.find_by(email: @email)
 		if user && BCrypt::Engine.hash_secret(@inputted_password, user.salt) == user.encrypted_password
-	   	Result::Success.new(result: user)
+	   		Result::Success.new(result: user)
 		else 
-	   	Result::Failure.new(errors: user.errors)
+	   		Result::Failure.new(errors: user.errors)
 		end
 	end
 end

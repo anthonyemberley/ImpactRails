@@ -2,12 +2,11 @@ class User < ActiveRecord::Base
 	EMAIL_REGEX = /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 	validates :email, uniqueness: true, :format => EMAIL_REGEX, if: 'email.present?'
 	validates :name, :presence => true
-	validates :password, :presence => true, length: { minimum: 6 }
+	validates :password, :presence => true, length: { minimum: 6 }, :unless => :facebook_id?
 	attr_accessor :password
 
 	before_save :encrypt_password, :ensure_authentication_token
 	after_save :clear_password
-
 
   	'''JSON RESPONSE '''
     def as_json(options={})
