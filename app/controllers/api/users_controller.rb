@@ -1,6 +1,7 @@
 class Api::UsersController < Api::ApiController
 	USER_RESPONSE_KEY = "user"
-	skip_before_filter :authenticate_user_from_token, :only => [:sign_up, :login]
+	FACEBOOK_RESPONSE_KEY = "facebook"
+	skip_before_filter :authenticate_user_from_token, :only => [:sign_up, :login, :facebook_authentication]
 
 	def sign_up
 		response = CreateUserService.new(create_user_params).perform
@@ -22,6 +23,16 @@ class Api::UsersController < Api::ApiController
 		end
 	end
 
+	def facebook_authentication
+		response = FacebookAuthenticationService.new(facebook_authentication_params).perform
+		if response.success?
+			@current_user = response.result
+			render_default_user_response(@current_user)
+		else
+			render_error(:unauthorized,response.errors)
+		end
+	end
+
 	def get_current_user
 		render_default_user_response(@current_user)
 	end 
@@ -35,6 +46,10 @@ class Api::UsersController < Api::ApiController
 
 	    def password_login_parms
 	    	params.require(USER_RESPONSE_KEY).permit(:email,:password)
+	    end
+
+	    def facebook_authentication_params
+	    	params.require(FACEBOOK_RESPONSE_KEY).permit(:name,:email,:facebook_id, :facebook_acccess_token)
 	    end
 
 	    '''RENDER'''
