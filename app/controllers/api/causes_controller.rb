@@ -14,6 +14,7 @@ class Api::CausesController < Api::ApiController
 
 	def index
 		@causes = Cause.all
+		render_cause_index_response(@causes)
 	end
 
 
@@ -25,6 +26,9 @@ class Api::CausesController < Api::ApiController
 	     	params.require(CAUSE_RESPONSE_KEY).permit(:name,:description, :category)
 	    end
 
+	    def render_cause_index_response(causes)
+	    	render status: :ok , json: causes.as_json
+		end
 
 	    '''RENDER'''
 	    def render_default_cause_response(cause)
