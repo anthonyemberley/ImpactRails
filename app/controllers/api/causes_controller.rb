@@ -1,10 +1,7 @@
-class Api::CausesController < ApplicationController
+class Api::CausesController < Api::ApiController
+	CAUSE_RESPONSE_KEY = "cause"
 
 	def create
-		temp_json_string = "{"cause":{"name": "red cross", "category": "homeless", "description": "ex.description"}"
-		parsed_json_hash = JSON.parse temp_json_string
-
-		#don't really get where this goes after here
 		response = CreateCauseService.new(create_cause_params).perform
 		if response.success?
 			cause = response.result
@@ -25,7 +22,7 @@ class Api::CausesController < ApplicationController
 
 	    '''PARAMS '''
 	    def create_cause_params 
-	     	params.permit(:name,:description, :category)
+	     	params.require(CAUSE_RESPONSE_KEY).permit(:name,:description, :category)
 	    end
 
 
