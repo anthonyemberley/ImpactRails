@@ -9,12 +9,35 @@ class Api::CausesController < Api::ApiController
 		else
 			render_error(:unauthorized,response.errors)
 		end
-
 	end
 
 	def index
-		@causes = Cause.all
-		render_cause_index_response(@causes)
+		@all_causes = Cause.all
+		render_list_of_causes(@all_causes)
+	end
+
+	def get
+		cause = Cause.find_by(id:params[:id])
+		if cause.present?
+			render_default_cause_response(cause)
+		else
+			render_error(:bad_request,"Cannot find cause with id "+ params[:id])
+		end
+	end
+
+	def join
+		cause = Cause.find_by(id:params[:id])
+		response = JoinCauseService.new(@current_user,cause).perform
+		if response.success?
+			render_default_cause_response(cause)
+		else
+			render_error(:bad_request,response.errors)
+		end
+	end
+
+	def get_user_causes
+		@user_causes = @current_user.causes
+		render_list_of_causes(@user_causes)
 	end
 
 
@@ -26,7 +49,7 @@ class Api::CausesController < Api::ApiController
 	     	params.require(CAUSE_RESPONSE_KEY).permit(:name,:description, :category)
 	    end
 
-	    def render_cause_index_response(causes)
+	    def render_list_of_causes(causes)
 	    	render status: :ok , json: causes.as_json
 		end
 

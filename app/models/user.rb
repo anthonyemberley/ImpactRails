@@ -1,4 +1,8 @@
 class User < ActiveRecord::Base
+
+	has_many :causes, :through => :user_cause_relationships
+	has_many :user_cause_relationships
+
 	EMAIL_REGEX = /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 	validates :email, uniqueness: true, :format => EMAIL_REGEX, if: 'email.present?'
 	validates :name, :presence => true
