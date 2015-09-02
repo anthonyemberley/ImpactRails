@@ -28,9 +28,8 @@ class Api::CausesController < Api::ApiController
 
 	    '''RENDER'''
 	    def render_default_cause_response(cause)
-			render status: :ok, json: {
-		    	message: "Successfully created a new cause named " + cause.name
-			}
+			render status: :ok , json: cause.as_json
+			
 		end
 
 	    def render_error(status,errors) 
