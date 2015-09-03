@@ -59,11 +59,5 @@ class Api::CausesController < Api::ApiController
 			
 		end
 
-	    def render_error(status,errors) 
-	    	render status: status, json: {
-		    	errors: errors
-			}
-	    end
-
 
 end

@@ -14,5 +14,36 @@ module Api
 				}
 		    end 
 		end
+
+
+		''' Encrypt and Decrypt '''
+		def encrypt(string)
+			salt  = @current_user.salt
+			key   = ActiveSupport::KeyGenerator.new(Rails.application.secrets.plaid_secret).generate_key(salt)
+			crypt = ActiveSupport::MessageEncryptor.new(key) 
+			encrypted_token = crypt.encrypt_and_sign(string)  
+			return  encrypted_token
+		end
+
+		def decrypt(encrypted_string)
+			salt  = @current_user.salt
+			key   = ActiveSupport::KeyGenerator.new(Rails.application.secrets.plaid_secret).generate_key(salt)
+			crypt = ActiveSupport::MessageEncryptor.new(key) 
+			decrypted_token = crypt.decrypt_and_verify(encrypted_string) 
+			return decrypted_token
+		end
+		
+		'''Rendering'''
+		def render_success_with_message(status,message)
+			render status: status, json: {
+		    	message: message
+			}
+		end
+
+		def render_error(status,errors) 
+	    	render status: status, json: {
+		    	errors: errors
+			}
+	    end
 	end
 end 

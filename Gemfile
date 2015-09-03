@@ -35,6 +35,8 @@ gem 'devise'
 gem 'puma'
 # used to make calls to the facebook graph api
 gem 'fb_graph2'
+# used for banking information
+gem 'plaid'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -17,5 +17,11 @@ Rails.application.routes.draw do
       get "/current_user/causes" => "causes#get_user_causes"
       post "/current_user/causes/leave" => "users#leave_current_cause"
 
+      '''Plaid '''
+      post "/plaid/create" => "plaid_api#create_plaid_user"
+      put "/plaid/update" => "plaid_api#update_plaid_user"
+      post "/plaid/answer" => "plaid_api#answer_security_question"
+      get "/plaid/transactions" => "plaid_api#get_transactions"
+
    end
 end
