@@ -4,7 +4,7 @@ class Api::UsersController < Api::ApiController
 		response = LeaveCauseService.new(@current_user).perform
 		if response.success?
 			message = "Successfully left Cause"
-			ApiController.render_success_with_message(:ok,message)
+			render_success_with_message(:ok,message)
 		else
 			render_error(:bad_request,response.errors)
 		end
