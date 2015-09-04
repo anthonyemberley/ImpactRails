@@ -65,16 +65,4 @@ class Api::SessionsController < Api::ApiController
 	    def render_default_user_response(user)
 	    	render status: :ok , json: user.as_json
 		end
-
-		def render_success_with_message(message)
-			render status: :ok, json: {
-		    	message: message
-			}
-		end
-
-	    def render_error(status,errors) 
-	    	render status: status, json: {
-		    	errors: errors
-			}
-	    end
 end

@@ -8,9 +8,13 @@ Bundler.require(*Rails.groups)
 
 module ImpactRails
   class Application < Rails::Application
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
+    Plaid.config do |p|
+      p.customer_id = Rails.application.secrets.plaid_client_id
+      p.secret = Rails.application.secrets.plaid_secret
+      p.environment_location = 'https://tartan.plaid.com/'
+      # i.e. 'https://tartan.plaid.com/' for development, or
+      # 'https://api.plaid.com/' for production
+    end
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
@@ -22,5 +26,6 @@ module ImpactRails
     config.eager_load_paths += %W(#{config.root}/app/services)
     config.autoload_paths += %W(#{config.root}/app/services/cause)
     config.autoload_paths += %W(#{config.root}/app/services/user)
+    config.autoload_paths += %W(#{config.root}/app/services/plaid)
   end
 end
