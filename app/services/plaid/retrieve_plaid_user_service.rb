@@ -1,4 +1,4 @@
-class UpdatePlaidUserService < Aldous::Service
+class RetrievePlaidUserService < Aldous::Service
 	def initialize(plaid_params)
 		@username = plaid_params[:username] 
 		@password = plaid_params[:password]
@@ -19,11 +19,10 @@ class UpdatePlaidUserService < Aldous::Service
                 req.content_type = 'application/x-www-form-urlencoded'
                 res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
                 body = JSON.parse(res.body)
-                if res.code == :ok || res.code == :created
+                if res.code == "200" || res.code == "201"
                         Result::Success.new(result: body)
                 else
                         Result::Failure.new(errors: "Invalid Credentials")
                 end
 	end
-
 end
