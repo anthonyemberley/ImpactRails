@@ -10,8 +10,8 @@ class CreatePlaidUserService < Aldous::Service
 		begin
 			plaid_user = Plaid.add_user('connect', @username, @password, @bank_type, @pin, {list: true})
 			Result::Success.new(result: plaid_user)
-		rescue
-			Result::Failure.new(errors: "Invalid Credentials. Your Account may be locked")
+		rescue Exception => error
+			Result::Failure.new(errors: error.resolve)
 		end
 	end
 

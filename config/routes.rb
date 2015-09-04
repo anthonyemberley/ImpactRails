@@ -21,8 +21,9 @@ Rails.application.routes.draw do
 
       '''Plaid '''
       post "/plaid/create" => "plaid_api#create_plaid_user"
-      put "/plaid/update" => "plaid_api#update_plaid_user"
+      put "/plaid/update" => "plaid_api#retrieve_plaid_user"
       post "/plaid/answer" => "plaid_api#answer_security_question"
+      put "/plaid/update/answer" => "plaid_api#retrieve_user_questions"
       get "/plaid/transactions" => "plaid_api#get_transactions"
 
    end
