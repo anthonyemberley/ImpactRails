@@ -7,7 +7,7 @@ class Api::PlaidApiController < Api::ApiController
 			plaid_user = response.result
 			plaid_access_token = plaid_user.access_token
 			encrypted_plaid_token = encrypt(plaid_access_token)
-			if plaid_user.api_res == NEEDS_MFA_INDICATOR
+			if plaid_user.pending_mfa_questions.present?
 				render status: :created , json: {
 					:questions => plaid_user.pending_mfa_questions,
 				}
