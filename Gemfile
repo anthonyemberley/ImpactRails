@@ -37,6 +37,8 @@ gem 'puma'
 gem 'fb_graph2'
 # used for banking information
 gem 'plaid'
+# used for making payments
+gem 'stripe'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
