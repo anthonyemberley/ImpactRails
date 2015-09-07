@@ -27,5 +27,6 @@ module ImpactRails
     config.autoload_paths += %W(#{config.root}/app/services/cause)
     config.autoload_paths += %W(#{config.root}/app/services/user)
     config.autoload_paths += %W(#{config.root}/app/services/plaid)
+    config.autoload_paths += %W(#{config.root}/app/services/stripe)
   end
 end

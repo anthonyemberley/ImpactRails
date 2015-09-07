@@ -1,6 +1,7 @@
 class Cause < ActiveRecord::Base
 	has_many :users, :through => :user_cause_relationships
 	has_many :user_cause_relationships
+	has_many :contributions
 
 	validates :name, :uniqueness => true, :presence => true
 	#TODO make sure cause is one of the finite number of categories we have

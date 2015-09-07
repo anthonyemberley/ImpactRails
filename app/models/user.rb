@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
 
 	has_many :causes, :through => :user_cause_relationships
 	has_many :user_cause_relationships
+	has_many :contributions
 
 	EMAIL_REGEX = /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 	validates :email, uniqueness: true, :format => EMAIL_REGEX, if: 'email.present?'
@@ -14,7 +15,7 @@ class User < ActiveRecord::Base
 
   	'''JSON RESPONSE '''
     def as_json(options={})
-		options[:except] = [:encrypted_password, :salt, :encrypted_plaid_token]
+		options[:except] = [:encrypted_password, :salt, :encrypted_plaid_token, :stripe_customer_id]
 		super
 	end
 
