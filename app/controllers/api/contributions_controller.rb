@@ -12,12 +12,16 @@ class Api::ContributionsController < Api::ApiController
 	end
 
 	def pay
-		amount = params[:contribution][:amount]
-		stripe_response = ChargeStripeCustomerService.new(amount,@current_user).perform
-		if stripe_response.success?
-			save_contribution(stripe_response.result)
-		else
-			render_error(:unauthorized, stripe_response.errors)
+		plaid_access_token = decrypt(@current_user.encrypted_plaid_token)
+		response = GetTransactionsService.new(plaid_access_token).perform
+		if response.success?
+			amount = CalculateContributionService.new(response.result).perform.result
+			stripe_response = ChargeStripeCustomerService.new(amount,@current_user).perform
+			if stripe_response.success?
+				save_contribution(stripe_response.result)
+			else
+				render_error(:unauthorized, stripe_response.errors)
+			end
 		end
 	end
 
