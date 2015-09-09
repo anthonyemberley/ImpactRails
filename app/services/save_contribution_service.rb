@@ -25,7 +25,6 @@ class SaveContributionService < Aldous::Service
 	#TODO: Figure out what happens if one of these updates fail and how to handle it
 
 	def update_all
-		#update_cause
 		update_user
 		update_user_cause_relationship
 	end
@@ -34,10 +33,6 @@ class SaveContributionService < Aldous::Service
 		@user.increment!(:total_amount_contributed, @amount)
 		@user.update_attribute(:last_contribution_date, Time.now)
 		@user.increment!(:current_cause_amount_contributed, @amount)
-	end
-
-	def update_cause
-		@cause.increment!(:current_total, @amount)
 	end
 
 	def update_user_cause_relationship

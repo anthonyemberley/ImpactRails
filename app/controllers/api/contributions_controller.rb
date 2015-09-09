@@ -50,35 +50,13 @@ class Api::ContributionsController < Api::ApiController
 				render_error(:unauthorized, response.errors)
 			end
 		end
-		#TODO: REFACTOR: CreatePaymentService, UpdatePaymentService
+
 		def update_payment_total(contribution)
-			if @current_user.current_payment_id.nil?
-				payment = Payment.new
-				payment.amount = contribution.amount
-				payment.user_id = @current_user.id
-				payment.cause_id = @current_user.current_cause_id
-				payment.save
-				contribution.update_attribute(:payment_id, payment.id)
-				@current_user.update_attribute(:last_contribution_date, payment.created_at)
-				@current_user.update_attribute(:current_payment_id, payment.id)
-				render 
-				render status: :ok , json: payment.as_json
+			response = CreatePaymentService.new(contribution,@current_user).perform
+			if response.success?
+				render status: :ok , json: response.result.as_json
 			else
-				payment = Payment.find_by(id:@current_user.current_payment_id)
-				payment.increment!(:amount, contribution.amount)
-				if payment.amount >= 1000
-					payment.update_attribute(:transaction_completed, true)
-					@current_user.update_attribute(:current_payment_id, nil)
-					stripe_response = ChargeStripeCustomerService.new(payment.amount,@current_user).perform
-					if stripe_response.success?
-						payment.update_attribute(:stripe_transaction_id, stripe_response.result[:id])
-						render status: :ok , json: stripe_response.as_json
-					else
-						render_error(:unauthorized, stripe_response.errors)
-					end
-				else
-					render status: :ok , json: payment.as_json
-				end
+				render_error(:unauthorized, response.errors)
 			end
 		end
 end

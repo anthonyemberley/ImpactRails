@@ -76,7 +76,7 @@ class Api::PlaidApiController < Api::ApiController
 	def get_transactions
 		# this service uses a standard http request because the plaid-rails gem does not support it
 		plaid_access_token = decrypt(@current_user.encrypted_plaid_token)
-		response = GetTransactionsService.new(plaid_access_token).perform
+		response = GetTransactionsService.new(plaid_access_token, Date.yesterday).perform
 		if response.success?
 			transactions = response.result
 			render status: :ok , json: transactions.as_json

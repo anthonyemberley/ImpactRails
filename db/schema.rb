@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150909030150) do
+ActiveRecord::Schema.define(version: 20150909171321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 20150909030150) do
     t.string   "encrypted_plaid_token"
     t.integer  "total_amount_contributed"
     t.integer  "current_cause_amount_contributed"
-    t.date     "last_contribution_date"
+    t.datetime "last_contribution_date"
     t.integer  "pending_contribution_amount"
     t.string   "stripe_customer_id"
     t.integer  "current_payment_id"
