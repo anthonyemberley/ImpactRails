@@ -1,8 +1,7 @@
 class SaveContributionService < Aldous::Service
 	
-	def initialize(stripe_response, user)
-		@amount = stripe_response[:amount]
-		@stripe_transaction_id = stripe_response[:id]
+	def initialize(amount, user)
+		@amount = amount
 		@user = user
 		@cause = Cause.find_by(id:@user.current_cause_id)
 	end
@@ -10,7 +9,6 @@ class SaveContributionService < Aldous::Service
 	def perform
 		contribution = Contribution.new
 		contribution.amount = @amount
-		contribution.stripe_transaction_id = @stripe_transaction_id
 		contribution.user_id = @user.id
 		contribution.user_name = @user.name
 		contribution.cause_id = @cause.id
@@ -27,7 +25,7 @@ class SaveContributionService < Aldous::Service
 	#TODO: Figure out what happens if one of these updates fail and how to handle it
 
 	def update_all
-		update_cause
+		#update_cause
 		update_user
 		update_user_cause_relationship
 	end

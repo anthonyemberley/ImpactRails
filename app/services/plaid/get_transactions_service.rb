@@ -1,14 +1,16 @@
 class GetTransactionsService < Aldous::Service
-	def initialize(plaid_access_token)
+	def initialize(plaid_access_token, gte_date)
 		@plaid_access_token = plaid_access_token
+                @gte_date = gte_date
 	end
 
 	def perform
 	        uri = URI.parse("https://tartan.plaid.com/connect/get")
+                options_string = '{"gte":"' + @gte_date.to_s + '"}'
                 payload = {"secret" => Rails.application.secrets.plaid_secret , 
                 			"client_id"=> Rails.application.secrets.plaid_client_id, 
                 			"access_token" => @plaid_access_token,
-                			"options" => '{"gte":"today"}'
+                			"options" => '{"gte":"10 days ago"}'
                 		}
                 req = Net::HTTP::Post.new(uri.path)
                 req.set_form_data(payload)
