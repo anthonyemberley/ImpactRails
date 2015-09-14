@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       post "/create_cause" => "causes#create"
       get "/causes/all"  => "causes#index"
       get "/causes/:id" => "causes#get"
-      get "/causes/category" => "causes#get_causes_from_category"
+      post "/causes/categories" => "causes#get_causes_from_categories"
       post "causes/:id/join" => "causes#join"
 
       '''Users '''
