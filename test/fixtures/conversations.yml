@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  cause_id: 1
+  user_id: 1
+  cause_name: MyString
+
+two:
+  cause_id: 1
+  user_id: 1
+  cause_name: MyString
