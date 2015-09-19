@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  cause_id: 
+  cause_name: 
+  user_id: 
+  amount: 
+  transaction_completed: false
+
+two:
+  cause_id: 
+  cause_name: 
+  user_id: 
+  amount: 
+  transaction_completed: false

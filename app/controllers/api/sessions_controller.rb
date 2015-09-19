@@ -43,6 +43,19 @@ class Api::SessionsController < Api::ApiController
 	end
 
 	def get_current_user
+		plaid_access_token = decrypt(@current_user.encrypted_plaid_token)
+		gte_date = @current_user.last_contribution_date
+		response = GetTransactionsService.new(plaid_access_token, gte_date).perform
+		if response.success?
+			transactions = response.result
+			contribution_object = CalculateContributionService.new(transactions).perform
+			if contribution_object.success?
+				money_accumulated_today = contribution_object.result
+				@current_user.update_attribute(:pending_contribution_amount, money_accumulated_today)
+			end
+		elsif @current_user.pending_contribution_amount != 0
+			@current_user.update_attribute(:pending_contribution_amount, 0)
+		end
 		render_default_user_response(@current_user)
 	end 
 
