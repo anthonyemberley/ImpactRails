@@ -31,9 +31,11 @@ Rails.application.routes.draw do
       put "/plaid/update/answer" => "plaid_api#retrieve_user_questions"
       get "/plaid/transactions" => "plaid_api#get_transactions"
 
-      scope '/webapp' do
-         post "/create_cause" => "causes#create"
-      end
-
+   end
+   namespace :webapp do
+      post "/create_organization" => "organization#sign_up"
+      post "/login_organization" => "organization#login"
+      post "/create_cause" => "causes#create"
+      get "/causes/:id" => "causes#get"
    end
 end
