@@ -12,18 +12,10 @@ class Api::ContributionsController < Api::ApiController
 	end
 
 	def pay
-		plaid_access_token = decrypt(@current_user.encrypted_plaid_token)
-		gte_date = @current_user.last_contribution_date
-		if gte_date.nil?
-			gte_date = Time.now.getutc
-		end
-		response = GetTransactionsService.new(plaid_access_token, gte_date).perform
-		if response.success?
-			amount = CalculateContributionService.new(response.result).perform.result
-			contribution_response = SaveContributionService.new(amount,@current_user).perform
-			if contribution_response.success?
-				update_payment_total(contribution_response.result)
-			end
+		amount = @current_user.pending_contribution_amount
+		contribution_response = SaveContributionService.new(amount,@current_user).perform
+		if contribution_response.success?
+			update_payment_total(contribution_response.result)
 		else 
 			render_error(:unauthorized, response.errors)
 		end
@@ -41,15 +33,6 @@ class Api::ContributionsController < Api::ApiController
 	end
 
 	private
-
-		def save_contribution(stripe_response)
-			response = SaveContributionService.new(stripe_response,@current_user).perform
-			if response.success?
-				render status: :ok , json: response.result.as_json
-			else
-				render_error(:unauthorized, response.errors)
-			end
-		end
 
 		def update_payment_total(contribution)
 			response = CreatePaymentService.new(contribution,@current_user).perform

@@ -1,7 +1,7 @@
 class GetTransactionsService < Aldous::Service
 	def initialize(plaid_access_token, gte_date)
-		@plaid_access_token = plaid_access_token
-                @gte_date = gte_date
+	        @plaid_access_token = plaid_access_token
+                @gte_date = if gte_date.nil? then Time.now.getutc else gte_date end
 	end
 
 	def perform
@@ -21,7 +21,7 @@ class GetTransactionsService < Aldous::Service
                 if transactions.present?
                 	Result::Success.new(result: transactions)
                 else
-                	Result::Failure.new(errors:"No transactions were found")
+                	Result::Failure.new(errors:"No new transactions since "+@gte_date.to_s)
                 end
 	end
 
