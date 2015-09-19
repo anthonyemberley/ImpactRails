@@ -9,7 +9,6 @@ Rails.application.routes.draw do
       get "/current_user" => "sessions#get_current_user"
 
       '''Causes '''
-      post "/create_cause" => "causes#create"
       get "/causes/all"  => "causes#index"
       get "/causes/:id" => "causes#get"
       get "/causes/category" => "causes#get_causes_from_category"
@@ -31,6 +30,10 @@ Rails.application.routes.draw do
       post "/plaid/answer" => "plaid_api#answer_security_question"
       put "/plaid/update/answer" => "plaid_api#retrieve_user_questions"
       get "/plaid/transactions" => "plaid_api#get_transactions"
+
+      scope '/webapp' do
+         post "/create_cause" => "causes#create"
+      end
 
    end
 end
