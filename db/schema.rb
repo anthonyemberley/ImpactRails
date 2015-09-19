@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20150909171321) do
+=======
+ActiveRecord::Schema.define(version: 20150919165314) do
+>>>>>>> master
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,7 +31,10 @@ ActiveRecord::Schema.define(version: 20150909171321) do
     t.integer  "current_total"
     t.string   "profile_image_url"
     t.datetime "end_date"
+    t.integer  "organization_id"
   end
+
+  add_index "causes", ["organization_id"], name: "index_causes_on_organization_id", using: :btree
 
   create_table "contributions", force: :cascade do |t|
     t.decimal  "amount"
@@ -42,6 +49,22 @@ ActiveRecord::Schema.define(version: 20150909171321) do
   add_index "contributions", ["cause_id"], name: "index_contributions_on_cause_id", using: :btree
   add_index "contributions", ["payment_id"], name: "index_contributions_on_payment_id", using: :btree
   add_index "contributions", ["user_id"], name: "index_contributions_on_user_id", using: :btree
+
+  create_table "organizations", force: :cascade do |t|
+    t.string   "organization_name"
+    t.integer  "nonprofit_id"
+    t.string   "summary"
+    t.string   "photo_url"
+    t.string   "username"
+    t.string   "encrypted_password"
+    t.string   "contact_name"
+    t.string   "contact_phone_number"
+    t.string   "contact_email"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.string   "salt"
+    t.string   "authentication_token"
+  end
 
   create_table "payments", force: :cascade do |t|
     t.integer  "cause_id"

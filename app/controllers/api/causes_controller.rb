@@ -1,16 +1,5 @@
 class Api::CausesController < Api::ApiController
 	CAUSE_RESPONSE_KEY = "cause"
-
-	def create
-		response = CreateCauseService.new(create_cause_params).perform
-		if response.success?
-			cause = response.result
-			render_default_cause_response(cause)
-		else
-			render_error(:unauthorized,response.errors)
-		end
-	end
-
 	def index
 		@all_causes = Cause.all
 		render_list_of_causes(@all_causes)
@@ -40,7 +29,7 @@ class Api::CausesController < Api::ApiController
 		render_list_of_causes(@user_causes)
 	end
 
-	def get_causes_from_category
+	def get_causes_from_categories
 		response = CategoryCausesService.new(causes_from_category_params).perform
 		if response.success?
 			causes = response.result
@@ -57,7 +46,7 @@ class Api::CausesController < Api::ApiController
 	    end
 
 		def causes_from_category_params
-			params.require(:category)
+			params.require(:categories)
 		end
 
 	    '''RENDER'''

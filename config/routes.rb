@@ -9,10 +9,9 @@ Rails.application.routes.draw do
       get "/current_user" => "sessions#get_current_user"
 
       '''Causes '''
-      post "/create_cause" => "causes#create"
       get "/causes/all"  => "causes#index"
       get "/causes/:id" => "causes#get"
-      get "/causes/category" => "causes#get_causes_from_category"
+      post "/causes/categories" => "causes#get_causes_from_categories"
       post "causes/:id/join" => "causes#join"
 
       '''Users '''
@@ -32,5 +31,11 @@ Rails.application.routes.draw do
       put "/plaid/update/answer" => "plaid_api#retrieve_user_questions"
       get "/plaid/transactions" => "plaid_api#get_transactions"
 
+   end
+   namespace :webapp do
+      post "/create_organization" => "organization#sign_up"
+      post "/login_organization" => "organization#login"
+      post "/create_cause" => "causes#create"
+      get "/causes/:id" => "causes#get"
    end
 end
