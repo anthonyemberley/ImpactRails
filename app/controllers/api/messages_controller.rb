@@ -1,21 +1,22 @@
 class Api::MessagesController < Api::ApiController
 	MESSAGE_RESPONSE_KEY = "message"
-
+	MESSAGES_RESPONSE_KEY = "messages"
 
 	#user creates message to 1 cause
-	def user_create
-
+	def create
+		response = CreateMessageService.new(create_params).perform
+		if response.success?
+			message = response.result
+			render_message_success(message)
+		else
+			render_error(:bad_request, response.errors)
+		end
 	end
 
-	#cause creates message to 1 user or all "following" users
-	def cause_create
 
-	end
-
-	#get all messages between a user and a cause - only indexing cause_id - consider also
-	#user id
-	def get_messages
-
+	def get
+		@conversation_messages = Message.with_conversation(params[:conversation_id])
+		render_list_of_messages(@conversation_messages)
 	end
 
 
@@ -23,25 +24,22 @@ class Api::MessagesController < Api::ApiController
 	private
 
 		'''PARAMS'''
-		def user_create_params
-				params.require(MESSAGE_RESPONSE_KEY, :conversation_id)
-		end
-
-		def cause_create_params
-
+		def create_params
+				params.require(MESSAGE_RESPONSE_KEY).permit( :conversation_id, :user_id, :cause_id, :title, :message_body)
 		end
 
 		def get_messages_params
-
+				params.require(MESSAGES_RESPONSE_KEY, :conversation_id).permit(:conversation_id,:cause_id)
 		end
 
 		'''RENDER'''
-		def render_message_success
+		def render_message_success(message)
+			render status: :ok, json: message.as_json
 
 		end
 
-		def render_message_fail
-
+		def render_list_of_messages(messages)
+			render status: :ok, json: convos.as_json
 		end
 		
 

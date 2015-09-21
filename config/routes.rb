@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
    namespace :api do
-   	  '''Session'''
+      
+   	'''Session'''
       post "/signup" => "sessions#sign_up"
       post "/login" => "sessions#login"
       post "/logout" => "sessions#logout"
@@ -31,6 +32,22 @@ Rails.application.routes.draw do
       post "/plaid/answer" => "plaid_api#answer_security_question"
       put "/plaid/update/answer" => "plaid_api#retrieve_user_questions"
       get "/plaid/transactions" => "plaid_api#get_transactions"
+
+
+      '''Messages'''
+      post "/message/create" => "messages#create"
+      post "/message/get" => "messages#get"
+
+
+      '''Conversations'''
+      post "/conversation/create" => "conversations#create"
+      post "/conversation/all" => "conversations#index"
+      post "/conversation/all_cause" => "conversations#index_cause"
+      post "/conversation/all_user" => "conversations#index_user"
+
+
+     
+
 
    end
 end
