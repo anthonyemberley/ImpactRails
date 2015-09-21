@@ -40,7 +40,7 @@ class Api::CausesController < Api::ApiController
 		render_list_of_causes(@user_causes)
 	end
 
-	def get_causes_from_category
+	def get_causes_from_categories
 		response = CategoryCausesService.new(causes_from_category_params).perform
 		if response.success?
 			causes = response.result
@@ -57,7 +57,7 @@ class Api::CausesController < Api::ApiController
 	    end
 
 		def causes_from_category_params
-			params.require(:category)
+			params.require(:categories)
 		end
 
 	    '''RENDER'''
