@@ -10,7 +10,6 @@ Rails.application.routes.draw do
       get "/current_user" => "sessions#get_current_user"
 
       '''Causes '''
-      post "/create_cause" => "causes#create"
       get "/causes/all"  => "causes#index"
       get "/causes/:id" => "causes#get"
       post "/causes/categories" => "causes#get_causes_from_categories"
@@ -49,5 +48,11 @@ Rails.application.routes.draw do
      
 
 
+   end
+   namespace :webapp do
+      post "/create_organization" => "organization#sign_up"
+      post "/login_organization" => "organization#login"
+      post "/create_cause" => "causes#create"
+      get "/causes/:id" => "causes#get"
    end
 end

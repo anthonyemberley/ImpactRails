@@ -12,12 +12,12 @@ class Api::ContributionsController < Api::ApiController
 	end
 
 	def pay
-		amount = params[:contribution][:amount]
-		stripe_response = ChargeStripeCustomerService.new(amount,@current_user).perform
-		if stripe_response.success?
-			save_contribution(stripe_response.result)
-		else
-			render_error(:unauthorized, stripe_response.errors)
+		amount = @current_user.pending_contribution_amount
+		contribution_response = SaveContributionService.new(amount,@current_user).perform
+		if contribution_response.success?
+			update_payment_total(contribution_response.result)
+		else 
+			render_error(:unauthorized, response.errors)
 		end
 	end
 
@@ -34,8 +34,8 @@ class Api::ContributionsController < Api::ApiController
 
 	private
 
-		def save_contribution(stripe_response)
-			response = SaveContributionService.new(stripe_response,@current_user).perform
+		def update_payment_total(contribution)
+			response = CreatePaymentService.new(contribution,@current_user).perform
 			if response.success?
 				render status: :ok , json: response.result.as_json
 			else

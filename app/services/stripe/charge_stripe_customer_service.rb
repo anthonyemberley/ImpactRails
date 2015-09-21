@@ -9,6 +9,9 @@ class ChargeStripeCustomerService < Aldous::Service
 	end
 
 	def perform
+		if @amount <= 50
+			Result::Failure.new(errors: "Amount contributed needs to be at least 50 cents")
+		end
 		begin 
 			result = Stripe::Charge.create(
   				:amount => @amount,
