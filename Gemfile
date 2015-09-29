@@ -39,6 +39,8 @@ gem 'fb_graph2'
 gem 'plaid'
 # used for making payments
 gem 'stripe'
+#for paginating
+gem 'will_paginate'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

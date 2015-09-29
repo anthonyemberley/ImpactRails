@@ -22,13 +22,13 @@ class Api::ContributionsController < Api::ApiController
 	end
 
 	def get_user_contributions
-		contributions = @current_user.contributions
+		contributions = @current_user.contributions.paginate(:page => params[:page],:per_page => 30).order('created_at DESC')
 		render status: :ok , json: contributions.as_json
 	end
 
 	def get_cause_contributions
 		cause = Cause.find_by(id: params[:id])
-		contributions = cause.contributions
+		contributions = cause.contributions.paginate(:page => params[:page],:per_page => 30).order('created_at DESC')
 		render status: :ok , json: contributions.as_json
 	end
 
