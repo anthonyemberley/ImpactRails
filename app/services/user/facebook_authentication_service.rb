@@ -2,23 +2,23 @@ class FacebookAuthenticationService < Aldous::Service
 
 	def initialize(facebook_params)
 		@facebook_id = facebook_params[:facebook_id]
-		@facebook_acccess_token = facebook_params[:facebook_acccess_token]
+		@facebook_access_token = facebook_params[:facebook_access_token]
 	end
 
 	def perform
-		facebook_user_object = fetch_facebook_user_object(@facebook_id, @facebook_acccess_token)
+		facebook_user_object = fetch_facebook_user_object(@facebook_id, @facebook_access_token)
 		if facebook_user_object.present?
 			authenticate_facebook_user(facebook_user_object)
 		else
-			Result::Failure.new(errors:"Can't Authenticate Facebook User with this acccess token")	
+			Result::Failure.new(errors:"Can't Authenticate Facebook User with this access token")	
 		end
 	end 
 
 	private
 
-		def fetch_facebook_user_object(facebook_id,facebook_acccess_token)
+		def fetch_facebook_user_object(facebook_id,facebook_access_token)
 			begin
-				return FbGraph2::User.new(facebook_id).authenticate(facebook_acccess_token).fetch
+				return FbGraph2::User.new(facebook_id).authenticate(facebook_access_token).fetch
 			rescue
 				return nil
 			end

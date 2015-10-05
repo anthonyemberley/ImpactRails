@@ -71,7 +71,7 @@ class Api::SessionsController < Api::ApiController
 	    end
 
 	    def facebook_authentication_params
-	    	params.require(FACEBOOK_RESPONSE_KEY).permit(:name,:email,:facebook_id, :facebook_acccess_token)
+	    	params.require(FACEBOOK_RESPONSE_KEY).permit(:name,:email,:facebook_id, :facebook_access_token)
 	    end
 
 	    '''RENDER'''
