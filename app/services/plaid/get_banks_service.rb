@@ -8,7 +8,7 @@ class GetBanksService < Aldous::Service
 	CAPITAL_ONE_LOGO = "https://logo.clearbit.com/capitalone.com"
 	CHARLES_SCHWAB_LOGO ="https://logo.clearbit.com/schwab.com"
 	FIDELITY_LOGO = "https://logo.clearbit.com/fidelity.com"
-	PNC_LOGO = "https://logo.clearbit.com/pnc.com"
+	PNC_LOGO = "http://i.forbesimg.com/media/lists/companies/pnc-financial-services_416x416.jpg"
 	TD_BANK_LOGO = "https://logo.clearbit.com/td.com"
 	SILICON_VALLEY_BANK_LOGO = "https://logo.clearbit.com/svb.com"
 	NAVY_FEDERAL_CREDIT_UNION_LOGO = "https://www.navyfederal.org/assets/images/nfcu-logo-bluegrad-800.jpg"
