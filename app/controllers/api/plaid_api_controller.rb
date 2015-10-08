@@ -86,6 +86,15 @@ class Api::PlaidApiController < Api::ApiController
 		end
 	end
 
+	def get_banks
+		response = GetBanksService.new.perform
+		if response.success?
+			render status: :ok , json: response.result
+		else
+			render_error(:internal_server_error, response.errors)
+		end
+	end
+
 	private
 
 		'''PARAMS '''

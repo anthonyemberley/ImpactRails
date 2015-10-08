@@ -31,6 +31,7 @@ Rails.application.routes.draw do
       post "/plaid/answer" => "plaid_api#answer_security_question"
       put "/plaid/update/answer" => "plaid_api#retrieve_user_questions"
       get "/plaid/transactions" => "plaid_api#get_transactions"
+      get "/plaid/banks" => "plaid_api#get_banks"
 
 
       '''Messages'''
