@@ -11,11 +11,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20150919165314) do
+ActiveRecord::Schema.define(version: 20151014044930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "blog_comments", force: :cascade do |t|
+    t.integer  "cause_id"
+    t.integer  "user_id"
+    t.string   "message"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "blog_post_id"
+  end
+
+  add_index "blog_comments", ["blog_post_id"], name: "index_blog_comments_on_blog_post_id", using: :btree
+  add_index "blog_comments", ["cause_id"], name: "index_blog_comments_on_cause_id", using: :btree
+  add_index "blog_comments", ["user_id"], name: "index_blog_comments_on_user_id", using: :btree
+
+  create_table "blog_posts", force: :cascade do |t|
+    t.string   "title"
+    t.string   "blog_body"
+    t.string   "image_url"
+    t.integer  "cause_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "blog_posts", ["cause_id"], name: "index_blog_posts_on_cause_id", using: :btree
 
   create_table "causes", force: :cascade do |t|
     t.string   "name"
@@ -72,8 +95,8 @@ ActiveRecord::Schema.define(version: 20150919165314) do
 
   add_index "messages", ["cause_id"], name: "index_messages_on_cause_id", using: :btree
   add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id", using: :btree
-  
   add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
+
   create_table "organizations", force: :cascade do |t|
     t.string   "organization_name"
     t.integer  "nonprofit_id"

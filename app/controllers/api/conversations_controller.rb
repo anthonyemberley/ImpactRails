@@ -1,12 +1,7 @@
 class Api::ConversationsController < Api::ApiController
 	CONVERSATION_RESPONSE_KEY = "conversation"
-
-	#TODO create a conversation that only shows the messages from the cause
-	#TODO come up with a way to only show causes the messages that have been responded to
-
 	#user starts conversation with its current cause
 	def create
-		#TODO check if there exists a conversation between the two
 		if Conversation.between(params[:user_id],params[:cause_id]).present?
       		response = Conversation.between(params[:user_id],params[:cause_id]).first
       	else

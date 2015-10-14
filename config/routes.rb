@@ -44,6 +44,14 @@ Rails.application.routes.draw do
       post "/conversation/all_cause" => "conversations#index_cause"
       post "/conversation/all_user" => "conversations#index_user"
 
+      '''Blog Posts'''
+      post "/blog_post/create" => "blog_posts#create"
+      post "/blog_post/all_cause" => "blog_posts#index_cause"
+
+      '''Blog Comments'''
+      post "/blog_comments/create" => "blog_comments#create"
+      post "/blog_post/all_blog_post" => "blog_posts#get"
+
 
      
 
