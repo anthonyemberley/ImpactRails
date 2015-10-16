@@ -20,6 +20,15 @@ class Webapp::OrganizationController < Webapp::WebappController
 			render_error(:unauthorized,response.errors)
 		end
 	end
+
+	def update_logo_url
+		logo_url = params[:organization][:logo_url]
+		if @organization.update_attribute(:logo_url,logo_url)
+			render status: :ok , json: {:message => "Successfully Updated Logo", :logo_url =>logo_url}.as_json
+		else
+			render_error(500, @organization.errors)
+		end
+	end
 	private
 	    '''PARAMS '''
 	    def create_organization_params 

@@ -53,6 +53,7 @@ Rails.application.routes.draw do
    namespace :webapp do
       post "/create_organization" => "organization#sign_up"
       post "/login_organization" => "organization#login"
+      put "/update_logo" => "organization#update_logo_url"
       post "/create_cause" => "causes#create"
       get "/causes/:id" => "causes#get"
    end

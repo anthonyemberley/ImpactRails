@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150920221226) do
+ActiveRecord::Schema.define(version: 20151016200728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(version: 20150920221226) do
     t.string   "profile_image_url"
     t.datetime "end_date"
     t.integer  "organization_id"
+    t.string   "organization_logo_url"
+    t.string   "organization_name"
   end
 
   add_index "causes", ["organization_id"], name: "index_causes_on_organization_id", using: :btree
@@ -77,7 +79,7 @@ ActiveRecord::Schema.define(version: 20150920221226) do
     t.string   "organization_name"
     t.integer  "nonprofit_id"
     t.string   "summary"
-    t.string   "photo_url"
+    t.string   "logo_url"
     t.string   "username"
     t.string   "encrypted_password"
     t.string   "contact_name"
