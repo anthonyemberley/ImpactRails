@@ -32,7 +32,7 @@ class Webapp::OrganizationController < Webapp::WebappController
 	private
 	    '''PARAMS '''
 	    def create_organization_params 
-	     	params.require(ORGANIZATION_RESPONSE_KEY).permit(:organization_name,:username, :nonprofit_id,:password)
+	     	params.require(ORGANIZATION_RESPONSE_KEY).permit(:organization_name,:username, :nonprofit_id,:password, :summary)
 	    end
 
 	    def organization_login_params
