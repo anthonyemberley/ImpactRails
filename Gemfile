@@ -41,6 +41,9 @@ gem 'plaid'
 gem 'stripe'
 #for paginating
 gem 'will_paginate'
+#handles location
+gem 'geokit-rails'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
