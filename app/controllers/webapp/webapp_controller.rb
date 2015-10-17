@@ -5,7 +5,7 @@ module Webapp
 
 		def authenticate_organization_from_token
 		    @organization_auth_token = request.headers["AUTHENTICATION-TOKEN"].presence	#this will require tokens on headers
-		    response = AuthenticateTokenService.new(@organization_auth_token).perform
+		    response = WebAppAuthenticateTokenService.new(@organization_auth_token).perform
 		    if response.success?
 		    	@organization = response.result
 		    else 

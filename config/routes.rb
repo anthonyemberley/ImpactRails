@@ -31,6 +31,7 @@ Rails.application.routes.draw do
       post "/plaid/answer" => "plaid_api#answer_security_question"
       put "/plaid/update/answer" => "plaid_api#retrieve_user_questions"
       get "/plaid/transactions" => "plaid_api#get_transactions"
+      get "/plaid/banks" => "plaid_api#get_banks"
 
 
       '''Messages'''
@@ -60,6 +61,7 @@ Rails.application.routes.draw do
    namespace :webapp do
       post "/create_organization" => "organization#sign_up"
       post "/login_organization" => "organization#login"
+      put "/update_logo" => "organization#update_logo_url"
       post "/create_cause" => "causes#create"
       get "/causes/:id" => "causes#get"
    end

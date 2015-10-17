@@ -1,7 +1,7 @@
 class Webapp::CausesController < Webapp::WebappController
 	CAUSE_RESPONSE_KEY = "cause"
 	def create
-		response = CreateCauseService.new(create_cause_params).perform
+		response = CreateCauseService.new(create_cause_params,@organization).perform
 		if response.success?
 			cause = response.result
 			render_default_cause_response(cause)
@@ -19,10 +19,14 @@ class Webapp::CausesController < Webapp::WebappController
 		end
 	end
 
+	def update_cause_photo_url
+
+	end
+
 	private
 	    '''PARAMS '''
 	    def create_cause_params 
-	     	params.require(CAUSE_RESPONSE_KEY).permit(:name,:description, :category)
+	     	params.require(CAUSE_RESPONSE_KEY).permit(:name,:description, :category, :goal)
 	    end
 
 		def causes_from_category_params
