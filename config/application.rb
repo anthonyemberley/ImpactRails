@@ -24,6 +24,8 @@ module ImpactRails
     config.active_record.raise_in_transactional_callbacks = true
     config.autoload_paths += %W(#{config.root}/app/services)
     config.eager_load_paths += %W(#{config.root}/app/services)
+    config.autoload_paths += %W(#{config.root}/app/services/blog)
+    config.autoload_paths += %W(#{config.root}/app/services/comment)
     config.autoload_paths += %W(#{config.root}/app/services/cause)
     config.autoload_paths += %W(#{config.root}/app/services/conversation)
     config.autoload_paths += %W(#{config.root}/app/services/message)

@@ -8,12 +8,12 @@ class Conversation < ActiveRecord::Base
 	validates :user_id, :presence => true
 
 
-	scope :involving_user, -> (user) do
-   		where("conversations.user_id =?",user.id)
+	scope :involving_user, -> (user_id) do
+   		where("conversations.user_id =?",user_id)
   	end
 
-  	scope :involving_cause, -> (cause) do
-   		where("conversations.user_id =?",cause.id)
+  	scope :involving_cause, -> (cause_id) do
+   		where("conversations.cause_id =?",cause_id)
   	end
 
 

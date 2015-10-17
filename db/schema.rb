@@ -16,6 +16,30 @@ ActiveRecord::Schema.define(version: 20151016200728) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "blog_comments", force: :cascade do |t|
+    t.integer  "cause_id"
+    t.integer  "user_id"
+    t.string   "message"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "blog_post_id"
+  end
+
+  add_index "blog_comments", ["blog_post_id"], name: "index_blog_comments_on_blog_post_id", using: :btree
+  add_index "blog_comments", ["cause_id"], name: "index_blog_comments_on_cause_id", using: :btree
+  add_index "blog_comments", ["user_id"], name: "index_blog_comments_on_user_id", using: :btree
+
+  create_table "blog_posts", force: :cascade do |t|
+    t.string   "title"
+    t.string   "blog_body"
+    t.string   "image_url"
+    t.integer  "cause_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "blog_posts", ["cause_id"], name: "index_blog_posts_on_cause_id", using: :btree
+
   create_table "causes", force: :cascade do |t|
     t.string   "name"
     t.string   "category"
