@@ -6,6 +6,7 @@ class Organization < ActiveRecord::Base
 	validates :organization_name, :presence => true, uniqueness: true
 	validates :nonprofit_id, :presence => true, uniqueness: true
 	validates :password, :presence => true, length: { minimum: 6 }
+	validates :username, :presence => true, uniqueness: true 
 	attr_accessor :password
 
 	before_save :encrypt_password, :ensure_authentication_token
