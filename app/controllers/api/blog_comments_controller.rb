@@ -1,5 +1,5 @@
 class Api::BlogCommentsController < Api::ApiController
-	COMMENTS_RESPONSE_KEY = 'blog_comments'
+	COMMENTS_RESPONSE_KEY = 'blog_comment'
 
 	def create
 		response = CreateBlogCommentService.new(create_params).perform
@@ -13,8 +13,8 @@ class Api::BlogCommentsController < Api::ApiController
 
 
 	def get
-		@blog_post_messages = Message.with_conversation(params[:blog_post_id])
-		render_list_of_messages(@blog_post_messages)
+		@blog_post_comments = BlogComment.with_blog_post(params[:blog_post_id])
+		render_list_of_comments(@blog_post_comments)
 	end
 
 
@@ -23,11 +23,11 @@ class Api::BlogCommentsController < Api::ApiController
 
 		'''PARAMS'''
 		def create_params
-				params.require(COMMENTS_RESPONSE_KEY).permit(:user_id, :blog_post_id, :title, :message)
+				params.require(COMMENTS_RESPONSE_KEY).permit(:user_id, :blog_post_id, :cause_id, :message)
 		end
 
 		def get_comments_params
-				params.require(COMMENTS_RESPONSE_KEY, :blog_post_id).permit(:conversation_id,:cause_id)
+				params.require(COMMENTS_RESPONSE_KEY, :blog_post_id)
 		end
 
 		'''RENDER'''

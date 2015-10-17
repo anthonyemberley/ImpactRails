@@ -29,11 +29,11 @@ class Api::BlogPostsController < Api::ApiController
 	private
 		'''PARAMS'''
 		def create_params
-			params.require(BLOG_POST_RESPONSE_KEY).permit(:title, :blog_body, :image_url :cause_id)
+			params.require(BLOG_POST_RESPONSE_KEY).permit(:title, :blog_body, :image_url, :cause_id)
 		end
 
 		def index_cause_params
-			params.require(CONVERSATION_RESPONSE_KEY, :cause_id)
+			params.require(BLOG_POST_RESPONSE_KEY, :cause_id)
 		end
 
 		'''RENDER'''

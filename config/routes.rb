@@ -47,11 +47,11 @@ Rails.application.routes.draw do
 
       '''Blog Posts'''
       post "/blog_post/create" => "blog_posts#create"
-      post "/blog_post/all_cause" => "blog_posts#index_cause"
+      get "/blog_post/cause/:cause_id" => "blog_posts#index_cause"
 
       '''Blog Comments'''
-      post "/blog_comments/create" => "blog_comments#create"
-      post "/blog_post/all_blog_post" => "blog_posts#get"
+      post "/blog_comment/create" => "blog_comments#create"
+      get "/blog_comments/blog/:blog_post_id" => "blog_comments#get"
 
 
      
