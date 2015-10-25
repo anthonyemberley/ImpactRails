@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151016200728) do
+ActiveRecord::Schema.define(version: 20151025192730) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 20151016200728) do
     t.string   "name"
     t.string   "category"
     t.string   "description"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.integer  "number_of_contributors"
     t.integer  "goal"
     t.integer  "current_total"
@@ -54,6 +54,11 @@ ActiveRecord::Schema.define(version: 20151016200728) do
     t.integer  "organization_id"
     t.string   "organization_logo_url"
     t.string   "organization_name"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.decimal  "longitude",              precision: 10, scale: 6
+    t.decimal  "latitude",               precision: 10, scale: 6
   end
 
   add_index "causes", ["organization_id"], name: "index_causes_on_organization_id", using: :btree
@@ -113,6 +118,11 @@ ActiveRecord::Schema.define(version: 20151016200728) do
     t.datetime "updated_at",           null: false
     t.string   "salt"
     t.string   "authentication_token"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.integer  "zipcode"
   end
 
   create_table "payments", force: :cascade do |t|
