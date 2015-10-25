@@ -26,7 +26,7 @@ class Webapp::CausesController < Webapp::WebappController
 	private
 	    '''PARAMS '''
 	    def create_cause_params 
-	     	params.require(CAUSE_RESPONSE_KEY).permit(:name,:description, :category, :goal)
+	     	params.require(CAUSE_RESPONSE_KEY).permit(:name,:description, :category, :goal,:city,:state,:country)
 	    end
 
 		def causes_from_category_params
