@@ -1,0 +1,48 @@
+- id: 1
+  name: Education
+  icon_url: www.google.com
+  selected_icon_url: www.google.com
+- id: 2
+  name: Technology
+  icon_url: www.google.com
+  selected_icon_url: www.google.com
+- id: 3
+  name: Environment
+  icon_url: www.google.com
+  selected_icon_url: www.google.com
+- id: 4
+  name: Mental Health
+  icon_url: www.google.com
+  selected_icon_url: www.google.com
+- id: 5
+  name: Armed Services
+  icon_url: www.google.com
+  selected_icon_url: www.google.com
+- id: 6
+  name: Athletics
+  icon_url: www.google.com
+  selected_icon_url: www.google.com
+- id: 7
+  name: Human Rights
+  icon_url: www.google.com
+  selected_icon_url: www.google.com
+- id: 8
+  name: Music and Arts
+  icon_url: www.google.com
+  selected_icon_url: www.google.com
+- id: 9
+  name: Community
+  icon_url: www.google.com
+  selected_icon_url: www.google.com
+- id: 10
+  name: Natural Disaster Relief
+  icon_url: www.google.com
+  selected_icon_url: www.google.com
+- id: 11
+  name: Medical Research
+  icon_url: www.google.com
+  selected_icon_url: www.google.com
+- id: 12
+  name: Overseas Aid
+  icon_url: www.google.com
+  selected_icon_url: www.google.com
