@@ -53,6 +53,9 @@ Rails.application.routes.draw do
       post "/blog_comment/create" => "blog_comments#create"
       get "/blog_comments/blog/:blog_post_id" => "blog_comments#get"
 
+      '''Categories '''
+      get "/categories"=>"categories#get_all_categories"
+
 
      
 
