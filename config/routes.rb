@@ -55,10 +55,7 @@ Rails.application.routes.draw do
 
       '''Categories '''
       get "/categories"=>"categories#get_all_categories"
-
-
-     
-
+      post "/categories/choose" => "categories#choose_categories"
 
    end
    namespace :webapp do

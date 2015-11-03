@@ -5,10 +5,10 @@ class Api::BlogPostsController < Api::ApiController
 		response = BlogPostCreateService.new(create_params).perform
 
 		if response.success?
-				@blog_post = response.result
-				render_create_blog_post(@blog_post)
+			@blog_post = response.result
+			render_create_blog_post(@blog_post)
 		else
-			render_error(:bad_request, "response.errors")
+			render_error(:bad_request, response.errors)
 		end
 
 	end
