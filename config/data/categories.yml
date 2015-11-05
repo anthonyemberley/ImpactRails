@@ -1,23 +1,23 @@
 - id: 1
   name: Education
-  icon_url: www.google.com
-  selected_icon_url: www.google.com
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Education+3x+Gray.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Book+3x+White+.png
 - id: 2
   name: Technology
-  icon_url: www.google.com
-  selected_icon_url: www.google.com
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Technology+3x+Gray.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Technology+3x+White.png
 - id: 3
   name: Environment
-  icon_url: www.google.com
-  selected_icon_url: www.google.com
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Environment+3x+Gray.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Environment+3x+White.png
 - id: 4
   name: Mental Health
   icon_url: www.google.com
   selected_icon_url: www.google.com
 - id: 5
   name: Armed Services
-  icon_url: www.google.com
-  selected_icon_url: www.google.com
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Armed+Services+3x+Gray+.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Armed+Services+3x+White.png
 - id: 6
   name: Athletics
   icon_url: www.google.com
