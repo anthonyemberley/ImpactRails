@@ -44,5 +44,5 @@
   selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Medical+Research+3x+White.png
 - id: 12
   name: Overseas Aid
-  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Oversea+Aid+3x+White.png
-  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Oversea+Aid+3x+Gray+.png
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Oversea+Aid+3x+Gray+.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Oversea+Aid+3x+White.png
