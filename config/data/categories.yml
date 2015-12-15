@@ -12,8 +12,8 @@
   selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Environment+3x+White.png
 - id: 4
   name: Mental Health
-  icon_url: www.google.com
-  selected_icon_url: www.google.com
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Heart+3x+Gray.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Heart+3x+White.png
 - id: 5
   name: Armed Services
   icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Armed+Services+3x+Gray+.png

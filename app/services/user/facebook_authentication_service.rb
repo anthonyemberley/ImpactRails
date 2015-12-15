@@ -3,6 +3,7 @@ class FacebookAuthenticationService < Aldous::Service
 	def initialize(facebook_params)
 		@facebook_id = facebook_params[:facebook_id]
 		@facebook_access_token = facebook_params[:facebook_access_token]
+		@device_token = facebook_params[:device_token]
 	end
 
 	def perform
@@ -27,6 +28,7 @@ class FacebookAuthenticationService < Aldous::Service
 		def authenticate_facebook_user(facebook_user_object)
 			user = User.find_by facebook_id: facebook_user_object.id
 			if user.present?
+				UpdateDeviceTokenService.new(user,@device_token).perform
 				Result::Success.new(result: user)
 			else
 				signup_facebook_user(facebook_user_object)
@@ -38,6 +40,7 @@ class FacebookAuthenticationService < Aldous::Service
 			new_user.name = facebook_user_object.name
 			new_user.facebook_id = facebook_user_object.id
 			if new_user.save
+				UpdateDeviceTokenService.new(new_user,@device_token).perform
 				Result::Success.new(result: new_user)
 			else
 				Result::Failure.new(errors: new_user.errors)

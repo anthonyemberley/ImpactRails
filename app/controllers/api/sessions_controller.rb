@@ -63,15 +63,15 @@ class Api::SessionsController < Api::ApiController
 
 		'''PARAMS '''
 	    def create_user_params 
-	     	params.require(USER_RESPONSE_KEY).permit(:name,:password,:email)
+	     	params.require(USER_RESPONSE_KEY).permit(:name,:password,:email,:device_token)
 	    end
 
 	    def password_login_parms
-	    	params.require(USER_RESPONSE_KEY).permit(:email,:password)
+	    	params.require(USER_RESPONSE_KEY).permit(:email,:password,:device_token)
 	    end
 
 	    def facebook_authentication_params
-	    	params.require(FACEBOOK_RESPONSE_KEY).permit(:name,:email,:facebook_id, :facebook_access_token)
+	    	params.require(FACEBOOK_RESPONSE_KEY).permit(:name,:email,:facebook_id, :facebook_access_token,:device_token)
 	    end
 
 	    '''RENDER'''
