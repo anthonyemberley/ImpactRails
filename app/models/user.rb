@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
 
 	has_many :causes, :through => :user_cause_relationships
 	has_many :user_cause_relationships
+	has_many :categories, :through => :user_categories
+	has_many :user_categories
 	has_many :contributions
 	has_many :conversations
 	has_many :messages
@@ -14,6 +16,10 @@ class User < ActiveRecord::Base
 
 	before_save :encrypt_password, :ensure_authentication_token
 	after_save :clear_password
+
+	def categories
+		return Category.where(id: self.user_categories.map{ |o| o.category_id }) 
+	end
 
   	'''JSON RESPONSE '''
     def as_json(options={})

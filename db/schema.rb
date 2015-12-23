@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151128182739) do
+
+ActiveRecord::Schema.define(version: 20151215043400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,12 +41,20 @@ ActiveRecord::Schema.define(version: 20151128182739) do
 
   add_index "blog_posts", ["cause_id"], name: "index_blog_posts_on_cause_id", using: :btree
 
+  create_table "categories", force: :cascade do |t|
+    t.string   "name"
+    t.string   "icon_url"
+    t.string   "selected_icon_url"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
   create_table "causes", force: :cascade do |t|
     t.string   "name"
     t.string   "category"
     t.string   "description"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.integer  "number_of_contributors"
     t.integer  "goal"
     t.integer  "current_total"
@@ -54,6 +63,11 @@ ActiveRecord::Schema.define(version: 20151128182739) do
     t.integer  "organization_id"
     t.string   "organization_logo_url"
     t.string   "organization_name"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.decimal  "longitude",              precision: 10, scale: 6
+    t.decimal  "latitude",               precision: 10, scale: 6
   end
 
   add_index "causes", ["organization_id"], name: "index_causes_on_organization_id", using: :btree
@@ -113,6 +127,11 @@ ActiveRecord::Schema.define(version: 20151128182739) do
     t.datetime "updated_at",           null: false
     t.string   "salt"
     t.string   "authentication_token"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.integer  "zipcode"
   end
 
   create_table "payments", force: :cascade do |t|
@@ -128,6 +147,13 @@ ActiveRecord::Schema.define(version: 20151128182739) do
 
   add_index "payments", ["cause_id"], name: "index_payments_on_cause_id", using: :btree
   add_index "payments", ["user_id"], name: "index_payments_on_user_id", using: :btree
+
+  create_table "user_categories", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "category_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "user_cause_relationships", force: :cascade do |t|
     t.integer  "user_id"
@@ -161,6 +187,7 @@ ActiveRecord::Schema.define(version: 20151128182739) do
     t.decimal  "weekly_budget"
     t.integer  "current_streak"
     t.integer  "total_contributions"
+    t.string   "device_token"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree

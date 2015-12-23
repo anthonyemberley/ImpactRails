@@ -43,6 +43,8 @@ gem 'stripe'
 gem 'will_paginate'
 #handles location
 gem 'geokit-rails'
+#for static models (ie categories)
+gem 'frozen_record'
 
 
 group :development, :test do

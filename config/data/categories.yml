@@ -1,0 +1,48 @@
+- id: 1
+  name: Education
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Education+3x+Gray.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Book+3x+White+.png
+- id: 2
+  name: Technology
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Technology+3x+Gray.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Technology+3x+White.png
+- id: 3
+  name: Environment
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Environment+3x+Gray.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Environment+3x+White.png
+- id: 4
+  name: Mental Health
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Heart+3x+Gray.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Heart+3x+White.png
+- id: 5
+  name: Armed Services
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Armed+Services+3x+Gray+.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Armed+Services+3x+White.png
+- id: 6
+  name: Athletics
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Sports+3x+Gray.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Sports+3x+White.png
+- id: 7
+  name: Human Rights
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/LGBT+3x+Gray.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/LGBT+3x+White.png
+- id: 8
+  name: Music and Arts
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Music+%26+Arts+3x+Gray.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Music+%26+Arts+3x+White.png
+- id: 9
+  name: Community
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Community+3x+Gray+.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Community+3x+White.png
+- id: 10
+  name: Natural Disaster Relief
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Heart+3x+Gray.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Heart+3x+White.png
+- id: 11
+  name: Medical Research
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Medical+Research+3x+Gray.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Medical+Research+3x+White.png
+- id: 12
+  name: Overseas Aid
+  icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Oversea+Aid+3x+Gray+.png
+  selected_icon_url: https://s3-us-west-2.amazonaws.com/impact-assets/Oversea+Aid+3x+White.png
