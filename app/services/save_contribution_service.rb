@@ -33,6 +33,7 @@ class SaveContributionService < Aldous::Service
 		@user.increment!(:total_amount_contributed, @amount)
 		@user.update_attribute(:last_contribution_date, Time.now)
 		@user.increment!(:current_cause_amount_contributed, @amount)
+		@user.increment!(:total_contributions, 1)
 	end
 
 	def update_user_cause_relationship
