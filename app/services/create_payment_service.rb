@@ -15,6 +15,7 @@ class CreatePaymentService < Aldous::Service
 			new_payment.amount = @contribution.amount
 			new_payment.user_id = @user.id
 			new_payment.cause_id = @user.current_cause_id
+			new_payment.cause_name = @cause.name
 			if new_payment.save
 				@contribution.update_attribute(:payment_id, new_payment.id)
 				link_user_to_new_payment(new_payment)
@@ -29,6 +30,7 @@ class CreatePaymentService < Aldous::Service
 			payment.increment!(:amount, @contribution.amount)
 			update_cause
 			if payment.amount >= PAYMENT_THRESHOLD
+				puts payment.amount.to_s+ " is above threshold!"
 				stripe_response = ChargeStripeCustomerService.new(payment.amount,@user).perform
 				if stripe_response.success?
 					update_completed_payment(payment,stripe_response.result[:id])
@@ -37,6 +39,7 @@ class CreatePaymentService < Aldous::Service
 					Result::Failure.new(errors: stripe_response.errors)
 				end
 			else
+				puts payment.amount.to_s+ " is below threshold!"
 				puts "HERE IT IS PAYMENT!!!"
 				puts payment.to_s
 				Result::Success.new(result: payment)
