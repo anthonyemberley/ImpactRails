@@ -26,11 +26,14 @@ module Api
 		end
 
 		def decrypt(encrypted_string)
-			salt  = @current_user.salt
-			key   = ActiveSupport::KeyGenerator.new(Rails.application.secrets.plaid_secret).generate_key(salt)
-			crypt = ActiveSupport::MessageEncryptor.new(key) 
-			decrypted_token = crypt.decrypt_and_verify(encrypted_string) 
-			return decrypted_token
+			puts 'DECRYPT!!!'
+			if !encrypted_string.blank?
+				salt  = @current_user.salt
+				key   = ActiveSupport::KeyGenerator.new(Rails.application.secrets.plaid_secret).generate_key(salt)
+				crypt = ActiveSupport::MessageEncryptor.new(key) 
+				decrypted_token = crypt.decrypt_and_verify(encrypted_string) 
+				return decrypted_token
+			end
 		end
 		
 		'''Rendering'''
