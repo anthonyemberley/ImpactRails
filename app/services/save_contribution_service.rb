@@ -7,6 +7,7 @@ class SaveContributionService < Aldous::Service
 	end
 
 	def perform
+		puts "SAVE CONTRIBUTION SERVICE!!!"
 		contribution = Contribution.new
 		contribution.amount = @amount
 		contribution.user_id = @user.id

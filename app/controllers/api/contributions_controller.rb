@@ -14,6 +14,8 @@ class Api::ContributionsController < Api::ApiController
 	def pay
 		amount = @current_user.pending_contribution_amount
 		contribution_response = SaveContributionService.new(amount,@current_user).perform
+		puts "CONTRIBUTION RESPONSE!!"
+		puts contribution_response.to_s
 		if contribution_response.success?
 			update_payment_total(contribution_response.result)
 		else 
