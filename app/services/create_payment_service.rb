@@ -10,7 +10,7 @@ class CreatePaymentService < Aldous::Service
 	def perform
 		is_first_payment = @user.current_payment_id.nil?
 		if is_first_payment
-			puts "first payment!!!"
+			puts "user id: "+@user.id+ " is making a new payment"
 			new_payment = Payment.new
 			new_payment.amount = @contribution.amount
 			new_payment.user_id = @user.id
@@ -20,12 +20,13 @@ class CreatePaymentService < Aldous::Service
 				@contribution.update_attribute(:payment_id, new_payment.id)
 				link_user_to_new_payment(new_payment)
 				update_cause
+				puts "user id: "+@user.id+ " made a new payment and it save successfully"
 				Result::Success.new(result: new_payment)
 			else
 				Result::Failure.new(errors: new_payment.errors)
 			end
 		else
-			puts "OLD PAYMENT!!!"
+			puts "user id: "+@user.id+ " is making an old payment"
 			payment = Payment.find_by(id:@user.current_payment_id)
 			payment.increment!(:amount, @contribution.amount)
 			update_cause
@@ -39,9 +40,8 @@ class CreatePaymentService < Aldous::Service
 					Result::Failure.new(errors: stripe_response.errors)
 				end
 			else
+				puts "user id: "+@user.id+ " made payment below thrsehold"
 				puts payment.amount.to_s+ " is below threshold!"
-				puts "HERE IT IS PAYMENT!!!"
-				puts payment.to_s
 				Result::Success.new(result: payment)
 			end
 		end
