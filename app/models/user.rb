@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
 
   	'''JSON RESPONSE '''
     def as_json(options={})
-		options[:except] = [:encrypted_password, :salt, :encrypted_plaid_token, :stripe_customer_id]
+		#options[:except] = [:encrypted_password, :salt, :encrypted_plaid_token, :stripe_customer_id]
 		super
 	end
 
