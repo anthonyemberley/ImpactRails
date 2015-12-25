@@ -15,8 +15,10 @@ class SaveContributionService < Aldous::Service
 		contribution.cause_id = @cause.id
 		if contribution.save
 			update_all
+			puts "SAVE CONTRIBUTION SUCCESSFUL!"
 			Result::Success.new(result: contribution)
 		else
+			puts "SAVE CONTRIBUTION ERRORS"
 			Result::Failure.new(errors: contribution.errors)
 		end
 	end
