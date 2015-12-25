@@ -18,7 +18,7 @@ class Api::CausesController < Api::ApiController
 		cause = Cause.find_by(id:params[:id])
 		response = JoinCauseService.new(@current_user,cause).perform
 		if response.success?
-			render_default_cause_response(cause)
+			render status: :ok, json: @current_user.as_json
 		else
 			render_error(:bad_request,response.errors)
 		end
