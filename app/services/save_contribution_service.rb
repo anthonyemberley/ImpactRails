@@ -7,6 +7,7 @@ class SaveContributionService < Aldous::Service
 	end
 
 	def perform
+		puts "SAVE CONTRIBUTION SERVICE!!!"
 		contribution = Contribution.new
 		contribution.amount = @amount
 		contribution.user_id = @user.id
@@ -16,6 +17,7 @@ class SaveContributionService < Aldous::Service
 			update_all
 			Result::Success.new(result: contribution)
 		else
+			puts "SAVE CONTRIBUTION ERRORS"
 			Result::Failure.new(errors: contribution.errors)
 		end
 	end

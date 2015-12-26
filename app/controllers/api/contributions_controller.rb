@@ -15,6 +15,7 @@ class Api::ContributionsController < Api::ApiController
 		amount = @current_user.pending_contribution_amount
 		contribution_response = SaveContributionService.new(amount,@current_user).perform
 		if contribution_response.success?
+			puts "SAVE CONTRIBUTION SUCCESSFUL!"
 			update_payment_total(contribution_response.result)
 		else 
 			render_error(:unauthorized, response.errors)
