@@ -1,4 +1,5 @@
 class Api::UsersController < Api::ApiController
+	USER_RESPONSE_KEY = "user"
 
 	def leave_current_cause
 		response = LeaveCauseService.new(@current_user).perform
@@ -9,5 +10,28 @@ class Api::UsersController < Api::ApiController
 			render_error(:bad_request,response.errors)
 		end
 	end
-	
+
+	def update_weekly_budget
+		response = UpdateWeeklyBudgetService.new(update_weekly_budget_params, @current_user).perform
+		if response.success?
+			render_default_user_response(@current_user)
+		else
+			render_error(:unauthorized, response.errors)
+		end
+	end
+
+
+
+	private
+	'''PARAMS'''
+
+		def update_weekly_budget_params
+		    	params.require(USER_RESPONSE_KEY).permit(:value)
+		end
+
+	'''RENDER'''
+	    def render_default_user_response(user)
+	    	render status: :ok , json: user.as_json
+		end
+		
 end
