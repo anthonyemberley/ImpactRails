@@ -1,13 +1,13 @@
 class UpdateWeeklyBudgetService < Aldous::Service
 	
-	def initialize(value, user)
-		@value = value
+	def initialize(params, user)
+		@value = params[:value]
 		@user = user
 	end
 
 	def perform
 		update_user
-		if @user.save
+		if @user
 			Result::Success.new(result: @user)
 		else
 			Result::Failure.new(errors: @user.errors)
