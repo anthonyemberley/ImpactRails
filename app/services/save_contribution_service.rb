@@ -44,8 +44,10 @@ class SaveContributionService < Aldous::Service
 	def update_user_cause_relationship
 		relationship = UserCauseRelationship.where(:user_id => @user.id).where(:cause_id => @cause.id).first
 		relationship.increment!(:amount_contributed, @amount)
+		puts "increment relationship amount "+ relationship.amount_contributed.to_s
 		relationship.update_attribute(:last_contribution_date, Time.now)
 		if !relationship.has_contributed
+			puts "new contribution, create new relationship "
 			@cause.increment!(:number_of_contributors,1)
 			relationship.update_attribute(:has_contributed,true)
 		end
