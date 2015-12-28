@@ -38,7 +38,7 @@ class SaveContributionService < Aldous::Service
 		puts "incrementing amount: "+@amount.to_s+" by 1"
 		@user.increment!(:current_cause_amount_contributed, @amount)
 		puts "successfully incremented amount"
-		@user.increment!(:total_contributions, 1)
+		#@user.increment!(:total_contributions, 1)
 	end
 
 	def update_user_cause_relationship
