@@ -10,6 +10,7 @@ class SaveContributionService < Aldous::Service
 		puts "SAVE CONTRIBUTION SERVICE!!!"
 		contribution = Contribution.new
 		contribution.amount = @amount
+		puts "contributing: "+@amount.to_s
 		contribution.user_id = @user.id
 		contribution.user_name = @user.name
 		contribution.cause_id = @cause.id

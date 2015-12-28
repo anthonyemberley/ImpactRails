@@ -18,7 +18,7 @@ class Api::ContributionsController < Api::ApiController
 			puts "SAVE CONTRIBUTION SUCCESSFUL!"
 			update_payment_total(contribution_response.result)
 		else 
-			render_error(:unauthorized, response.errors)
+			render_error(:unauthorized, contribution_response.errors)
 		end
 	end
 
