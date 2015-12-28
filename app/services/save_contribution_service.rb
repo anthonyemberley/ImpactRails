@@ -35,7 +35,9 @@ class SaveContributionService < Aldous::Service
 	def update_user
 		@user.increment!(:total_amount_contributed, @amount)
 		@user.update_attribute(:last_contribution_date, Time.now)
+		puts "incrementing amount: "+@amount.to_s+" by 1"
 		@user.increment!(:current_cause_amount_contributed, @amount)
+		puts "successfully incremented amount"
 		@user.increment!(:total_contributions, 1)
 	end
 
