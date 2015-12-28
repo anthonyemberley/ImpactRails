@@ -42,6 +42,7 @@ class Api::SessionsController < Api::ApiController
 		end
 	end
 
+
 	def get_current_user
 		plaid_access_token = decrypt(@current_user.encrypted_plaid_token)
 		gte_date = @current_user.last_contribution_date

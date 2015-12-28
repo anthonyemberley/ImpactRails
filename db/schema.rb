@@ -183,6 +183,9 @@ ActiveRecord::Schema.define(version: 20151215043400) do
     t.integer  "pending_contribution_amount"
     t.string   "stripe_customer_id"
     t.integer  "current_payment_id"
+    t.decimal  "weekly_budget"
+    t.integer  "current_streak"
+    t.integer  "total_contributions"
     t.string   "device_token"
   end
 
