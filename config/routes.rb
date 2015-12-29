@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       get "/current_user/causes" => "causes#get_user_causes"
       post "/current_user/causes/leave" => "users#leave_current_cause"
       post "/current_user/update/weekly_budget" => "users#update_weekly_budget"
+      post "/current_user/update/clear_streak" => "users#clear_streak"
 
       '''Contributions '''
       post "/contributions/add_card" => "contributions#add_card"

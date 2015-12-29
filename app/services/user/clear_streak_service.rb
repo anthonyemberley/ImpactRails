@@ -1,7 +1,6 @@
-class UpdateWeeklyBudgetService < Aldous::Service
+class ClearStreakService < Aldous::Service
 	
-	def initialize(params, user)
-		@value = params[:value]
+	def initialize(user)
 		@user = user
 	end
 
@@ -17,7 +16,7 @@ class UpdateWeeklyBudgetService < Aldous::Service
 	private 
 
 	def update_user
-		@user.update_attribute(:weekly_budget, @value.to_f)
+		@user.update_attribute(:current_streak, 0)
 	end
 
 end

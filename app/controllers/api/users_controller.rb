@@ -20,6 +20,16 @@ class Api::UsersController < Api::ApiController
 		end
 	end
 
+	def clear_streak
+		response = ClearStreakService.new(@current_user).perform
+		if response.success?
+			render_default_user_response(@current_user)
+		else
+			render_error(:unauthorized, response.errors)
+		end
+
+	end
+
 
 
 	private
