@@ -37,8 +37,8 @@ class SaveContributionService < Aldous::Service
 
 		#checking if streak should be updated
 		puts "about to update user"
-		#time_since = @user.last_contribution_date.since()
-		puts "one line"
+		time_since = Time.now - @user.last_contribution_date 
+		puts "one line" + time_since.to_s
 		last_date_string = @user.last_contribution_date.to_formatted_s(:db)
 		now_date_string = Time.now.to_formatted_s(:db)
 		puts "halfway through"
