@@ -41,9 +41,9 @@ class SaveContributionService < Aldous::Service
 		next_year = Integer(last_date_string[0,4]) <= Integer(now_date_string[0,4])
 		next_month = Integer(last_date_string[5,7]) <= Integer(now_date_string[5,7])
 		next_day = Integer(last_date_string[8,10]) <= Integer(now_date_string[8,10])
-		if time_since < 86400 && (next_day || next_month || next_year)
+		if time_since < 86400 && (next_day || next_month || next_year) && @user.last_contribution_date != nil
 			@user.increment!(:current_streak,1)
-		elsif time_since >= 86400
+		elsif time_since >= 86400 || @user.last_contribution_date == nil
 			@user.update_attribute(:current_streak,1)
 		end
 
