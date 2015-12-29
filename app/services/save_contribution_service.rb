@@ -40,6 +40,7 @@ class SaveContributionService < Aldous::Service
 		time_since = @user.last_contribution_date.since()
 		last_date_string = @user.last_contribution_date.to_formatted_s(:db)
 		now_date_string = Time.now.to_formatted_s(:db)
+		puts "halfway through"
 		next_year = Integer(last_date_string[0,4]) <= Integer(now_date_string[0,4])
 		next_month = Integer(last_date_string[5,7]) <= Integer(now_date_string[5,7])
 		next_day = Integer(last_date_string[8,10]) <= Integer(now_date_string[8,10])
