@@ -45,6 +45,8 @@ gem 'will_paginate'
 gem 'geokit-rails'
 #for static models (ie categories)
 gem 'frozen_record'
+#for testing
+gem 'rspec-rails'
 
 
 group :development, :test do

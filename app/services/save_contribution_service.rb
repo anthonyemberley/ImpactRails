@@ -10,6 +10,7 @@ class SaveContributionService < Aldous::Service
 		puts "SAVE CONTRIBUTION SERVICE!!!"
 		contribution = Contribution.new
 		contribution.amount = @amount
+		puts "contributing: "+@amount.to_s
 		contribution.user_id = @user.id
 		contribution.user_name = @user.name
 		contribution.cause_id = @cause.id
@@ -48,14 +49,20 @@ class SaveContributionService < Aldous::Service
 		end
 
 		@user.update_attribute(:last_contribution_date, Time.now)
+		puts "incrementing amount: "+@amount.to_s+" by 1"
 		@user.increment!(:current_cause_amount_contributed, @amount)
+
+		puts "successfully incremented amount"
 	end
 
 	def update_user_cause_relationship
 		relationship = UserCauseRelationship.where(:user_id => @user.id).where(:cause_id => @cause.id).first
+		puts "found relationship "+relationship.to_s
 		relationship.increment!(:amount_contributed, @amount)
+		puts "increment relationship amount "+ relationship.amount_contributed.to_s
 		relationship.update_attribute(:last_contribution_date, Time.now)
 		if !relationship.has_contributed
+			puts "new contribution, create new relationship "
 			@cause.increment!(:number_of_contributors,1)
 			relationship.update_attribute(:has_contributed,true)
 		end
