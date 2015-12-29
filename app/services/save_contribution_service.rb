@@ -43,9 +43,12 @@ class SaveContributionService < Aldous::Service
 		now_date_string = Time.now.to_formatted_s(:db)
 		puts "halfway through"
 		puts "part of date string " + last_date_string[0,4]
+		puts "date_string " + last_date_string
 		puts "integer part of date string" + Integer(last_date_string[0,4]).to_s
 		next_year = Integer(last_date_string[0,4]) <= Integer(now_date_string[0,4])
+		puts "year works"
 		next_month = Integer(last_date_string[5,7]) <= Integer(now_date_string[5,7])
+		puts "month works"
 		next_day = Integer(last_date_string[8,10]) <= Integer(now_date_string[8,10])
 		puts "finished next year stuff"
 
