@@ -36,15 +36,20 @@ class SaveContributionService < Aldous::Service
 		@user.increment!(:total_amount_contributed, @amount)
 
 		#checking if streak should be updated
+		puts "about to update user"
 		time_since = @user.last_contribution_date.since()
 		last_date_string = @user.last_contribution_date.to_formatted_s(:db)
 		now_date_string = Time.now.to_formatted_s(:db)
 		next_year = Integer(last_date_string[0,4]) <= Integer(now_date_string[0,4])
 		next_month = Integer(last_date_string[5,7]) <= Integer(now_date_string[5,7])
 		next_day = Integer(last_date_string[8,10]) <= Integer(now_date_string[8,10])
+		puts "finished next year stuff"
+
 		if time_since < 86400 && (next_day || next_month || next_year) && @user.last_contribution_date != nil
+			puts "incrementing streak"
 			@user.increment!(:current_streak,1)
 		elsif time_since >= 86400 || @user.last_contribution_date == nil
+			puts "setting streak to 1"
 			@user.update_attribute(:current_streak,1)
 		end
 
