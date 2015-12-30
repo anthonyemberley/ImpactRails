@@ -26,7 +26,7 @@ class UpdateWeeklyBudgetService < Aldous::Service
 		puts "integer part of date string" + Integer(last_date_string[0,4]).to_s
 		next_year = Integer(last_date_string[0,4]) < Integer(now_date_string[0,4])
 		puts "year works"
-		puts "month string " + last_date_string[5,6] + "month string 2 " + now_date_string[5,6]
+		puts "month string " + @user.last_contribution_date.month.to_s  + "day string datetime" + Time.now.day.to_s
 		next_month = Integer(last_date_string[5,6]) < Integer(now_date_string[5,6])
 		puts "month works"
 		puts "date " + last_date_string[6,7] + "date 2" + now_date_string[6,7]
