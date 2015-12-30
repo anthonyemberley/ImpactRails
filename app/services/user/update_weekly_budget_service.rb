@@ -18,20 +18,17 @@ class UpdateWeeklyBudgetService < Aldous::Service
 
 	def update_user
 		@user.update_attribute(:weekly_budget, @value.to_f)
+		last_date = @user.last_contribution_date
+		now = Time.now
 		last_date_string = @user.last_contribution_date.to_formatted_s(:db)
-		now_date_string = Time.now.to_formatted_s(:db)
-		puts "halfway through"
-		puts "part of date string " + last_date_string[0,4]
-		puts "date_string " + last_date_string
-		puts "integer part of date string" + Integer(last_date_string[0,4]).to_s
-		next_year = Integer(last_date_string[0,4]) < Integer(now_date_string[0,4])
+		puts "before year"
+		next_year = last_date.year < now.year
 		puts "year works"
-		puts "month string " + @user.last_contribution_date.month.to_s  + "day string datetime" + Time.now.day.to_s
-		next_month = Integer(last_date_string[5,6]) < Integer(now_date_string[5,6])
+		next_month = last_date.month < now.month
 		puts "month works"
-		puts "date " + last_date_string[6,7] + "date 2" + now_date_string[6,7]
-		next_day = Integer(last_date_string[6,7]) < Integer(now_date_string[6,7])
+		next_day = last_date.day < now.day
 		puts "finished next year stuff"
+		puts "next year " + next_year.to_s + "next month " + next_month.to_s + "next_day " + next_day.to_s 
 	end
 
 end
