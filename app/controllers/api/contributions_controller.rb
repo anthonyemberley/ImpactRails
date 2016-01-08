@@ -13,12 +13,16 @@ class Api::ContributionsController < Api::ApiController
 
 	def pay
 		amount = @current_user.pending_contribution_amount
-		contribution_response = SaveContributionService.new(amount,@current_user).perform
+		contribution_response = ContributionService.new(amount,@current_user.perform) #STUB!
+		errors = nil
 		if contribution_response.success?
-			puts "SAVE CONTRIBUTION SUCCESSFUL!"
-			update_payment_total(contribution_response.result)
-		else 
-			render_error(:unauthorized, contribution_response.errors)
+			puts "SAVE CONTRIBUTION SUCCESSFUL"
+			contribution = contribution_response.result
+			user_cause_response = UpdateUserCauseService.new(@user,contribution.amount).perform #STUB!
+			if user_cause_response.succes?
+				user_payment_response = UpdateUserPayment.new(@user).perform #STUB!
+				render status: :ok , json: user_cause_response.result.as_json
+			end
 		end
 	end
 
@@ -32,15 +36,4 @@ class Api::ContributionsController < Api::ApiController
 		contributions = cause.contributions.paginate(:page => params[:page],:per_page => 30).order('created_at DESC')
 		render status: :ok , json: contributions.as_json
 	end
-
-	private
-
-		def update_payment_total(contribution)
-			response = CreatePaymentService.new(contribution,@current_user).perform
-			if response.success?
-				render status: :ok , json: response.result.as_json
-			else
-				render_error(:unauthorized, response.errors)
-			end
-		end
 end

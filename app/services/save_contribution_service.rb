@@ -1,4 +1,6 @@
 class SaveContributionService < Aldous::Service
+
+		''' DEPRECATED !! '''
 	
 	def initialize(amount, user)
 		@amount = amount
@@ -14,6 +16,13 @@ class SaveContributionService < Aldous::Service
 		contribution.user_id = @user.id
 		contribution.user_name = @user.name
 		contribution.cause_id = @cause.id
+		contribution.cause_name = @cause.name
+		#attach contribution to payment
+		if !@user.current_payment_id.nil?
+			contribution.paymend_id = @user.current_payment_id
+		else
+			puts "@user.current_payment_id is nil"
+		end
 		if contribution.save
 			update_all
 			Result::Success.new(result: contribution)

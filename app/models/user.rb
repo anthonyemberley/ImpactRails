@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 	has_many :user_cause_relationships
 	has_many :categories, :through => :user_categories
 	has_many :user_categories
+	has_many :payments
 	has_many :contributions
 	has_many :conversations
 	has_many :messages
