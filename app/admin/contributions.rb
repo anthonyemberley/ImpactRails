@@ -1,6 +1,6 @@
 ActiveAdmin.register Contribution do
   config.sort_order = 'created_at_desc'
-  config.per_page = 25
+  config.per_page = 50
   index do
   	selectable_column
   	column :id

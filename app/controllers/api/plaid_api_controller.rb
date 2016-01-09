@@ -5,14 +5,13 @@ class Api::PlaidApiController < Api::ApiController
 		response = CreatePlaidUserService.new(create_plaid_user_params).perform
 		if response.success?
 			plaid_user = response.result
-			plaid_access_token = plaid_user.access_token
-			encrypted_plaid_token = encrypt(plaid_access_token)
+			plaid_token = plaid_user.access_token
 			if plaid_user.pending_mfa_questions.present?
 				render status: :created , json: {
 					:questions => plaid_user.pending_mfa_questions,
 				}
 			else
-				@current_user.update_attribute(:encrypted_plaid_token, encrypted_plaid_token)
+				@current_user.update_attribute(:plaid_token, plaid_token)
 				render_success_with_message(:ok,"Successfully hooked up bank account")
 			end
 		else
@@ -26,8 +25,8 @@ class Api::PlaidApiController < Api::ApiController
 			api_response = response.result
 			status = api_response.pending_mfa_questions.present? ? :created : :ok
 			if status == :ok
-				encrypted_plaid_token = encrypt(api_response.access_token)
-				@current_user.update_attribute(:encrypted_plaid_token, encrypted_plaid_token)
+				plaid_token = api_response.access_token
+				@current_user.update_attribute(:plaid_token, plaid_token)
 				render_success_with_message(:ok,"Successfully hooked up bank account")
 			else
 				render status: status , json: api_response.pending_mfa_questions.as_json
@@ -45,9 +44,8 @@ class Api::PlaidApiController < Api::ApiController
 			if api_response.has_key?("mfa")
 				render status: :created , json: api_response.as_json
 			else
-				plaid_access_token = api_response[:access_token]
-				encrypted_plaid_token = encrypt(plaid_access_token)
-				@current_user.update_attribute(:encrypted_plaid_token, encrypted_plaid_token)
+				plaid_token = api_response[:access_token]
+				@current_user.update_attribute(:plaid_token, plaid_token)
 				render_success_with_message(:ok,"Successfully retrieved bank account")
 			end
 		else
@@ -63,9 +61,8 @@ class Api::PlaidApiController < Api::ApiController
 			if api_response.has_key?("mfa")
 				render status: :created , json: api_response.as_json
 			else
-				plaid_access_token = api_response[:access_token]
-				encrypted_plaid_token = encrypt(plaid_access_token)
-				@current_user.update_attribute(:encrypted_plaid_token, encrypted_plaid_token)
+				plaid_token = api_response[:access_token]
+				@current_user.update_attribute(:plaid_token, plaid_token)
 				render_success_with_message(:ok,"Successfully retrieved bank account")
 			end
 		else
@@ -75,7 +72,7 @@ class Api::PlaidApiController < Api::ApiController
 
 	def get_transactions
 		# this service uses a standard http request because the plaid-rails gem does not support it
-		plaid_access_token = decrypt(@current_user.encrypted_plaid_token)
+		plaid_access_token = @current_user.plaid_token
 		gte_date = @current_user.last_contribution_date
 		response = GetTransactionsService.new(plaid_access_token, gte_date).perform
 		if response.success?

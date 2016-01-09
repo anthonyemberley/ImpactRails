@@ -16,7 +16,6 @@ class Api::ConversationsController < Api::ApiController
 		end
 	end
 
-
 	#get all conversations
 	def index
 		@all_convos = Conversation.all

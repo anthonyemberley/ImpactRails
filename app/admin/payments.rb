@@ -5,14 +5,12 @@ ActiveAdmin.register Payment do
   index do
   	selectable_column
   	column :id
-    column :amount
-    column :cause_name
-    column :transaction_completed
-    column "Cause ID",:cause_id
-    column "Cause Name",:cause_name
-    column :created_at
     column "User ID", :user_id
+    column :amount
+    column :transaction_completed
     column "Stripe Transaction ID", :stripe_transaction_id
+    column :created_at
+    column :updated_at
     actions
   end
 end

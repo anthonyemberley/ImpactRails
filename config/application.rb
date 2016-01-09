@@ -34,5 +34,6 @@ module ImpactRails
     config.autoload_paths += %W(#{config.root}/app/services/stripe)
     config.autoload_paths += %W(#{config.root}/app/services/organization)
     config.autoload_paths += %W(#{config.root}/app/services/category)
+    config.autoload_paths += %W(#{config.root}/app/services/contribution)
   end
 end

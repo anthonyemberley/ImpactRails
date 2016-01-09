@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160106060928) do
+ActiveRecord::Schema.define(version: 20160109204324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 20160106060928) do
     t.datetime "updated_at", null: false
     t.integer  "cause_id"
     t.integer  "payment_id"
+    t.string   "cause_name"
   end
 
   add_index "contributions", ["cause_id"], name: "index_contributions_on_cause_id", using: :btree
@@ -167,17 +168,15 @@ ActiveRecord::Schema.define(version: 20160106060928) do
   end
 
   create_table "payments", force: :cascade do |t|
-    t.integer  "cause_id"
-    t.string   "cause_name"
     t.integer  "user_id"
     t.integer  "amount"
-    t.boolean  "transaction_completed", default: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.string   "stripe_transaction_id"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "has_charged", default: false
+    t.string   "user_name"
+    t.string   "user_email"
   end
 
-  add_index "payments", ["cause_id"], name: "index_payments_on_cause_id", using: :btree
   add_index "payments", ["user_id"], name: "index_payments_on_user_id", using: :btree
 
   create_table "rpush_apps", force: :cascade do |t|
@@ -239,6 +238,17 @@ ActiveRecord::Schema.define(version: 20160106060928) do
 
   add_index "rpush_notifications", ["delivered", "failed"], name: "index_rpush_notifications_multi", where: "((NOT delivered) AND (NOT failed))", using: :btree
 
+  create_table "stripe_charges", force: :cascade do |t|
+    t.integer  "amount"
+    t.integer  "user_id"
+    t.string   "stripe_id"
+    t.string   "stripe_transaction_id"
+    t.string   "user_name"
+    t.integer  "payment_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
   create_table "user_categories", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "category_id"
@@ -268,7 +278,7 @@ ActiveRecord::Schema.define(version: 20160106060928) do
     t.integer  "current_cause_id"
     t.string   "current_cause_name"
     t.datetime "current_cause_join_date"
-    t.string   "encrypted_plaid_token"
+    t.string   "plaid_token"
     t.integer  "total_amount_contributed"
     t.integer  "current_cause_amount_contributed"
     t.datetime "last_contribution_date"
