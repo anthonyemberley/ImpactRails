@@ -4,6 +4,7 @@ class CreateStripeCharges < ActiveRecord::Migration
       t.integer :amount
       t.integer :user_id
       t.string :stripe_id
+      t.string :stripe_transaction_id
       t.string :user_name
       t.integer :payment_id
 

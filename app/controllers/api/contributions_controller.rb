@@ -1,5 +1,6 @@
 class Api::ContributionsController < Api::ApiController
 	CONTRIBUTIONS_USER_KEY = "contribution"
+	PAYMENT_THRESHOLD = 1000
 
 	def add_card
 		response = CreateStripeCustomerService.new(@current_user,params[:contribution][:stripe_generated_token]).perform
@@ -12,18 +13,46 @@ class Api::ContributionsController < Api::ApiController
 	end
 
 	def pay
-		amount = @current_user.pending_contribution_amount
-		contribution_response = ContributionService.new(amount,@current_user.perform) #STUB!
-		errors = nil
-		if contribution_response.success?
-			puts "SAVE CONTRIBUTION SUCCESSFUL"
-			contribution = contribution_response.result
-			user_cause_response = UpdateUserCauseService.new(@user,contribution.amount).perform #STUB!
-			if user_cause_response.succes?
-				user_payment_response = UpdateUserPayment.new(@user).perform #STUB!
-				render status: :ok , json: user_cause_response.result.as_json
+		'''Check if user has current active payment, create one if not'''
+		no_current_payment = @current_user.current_payment_id.nil?
+		if no_current_payment
+			payment_response = CreatePaymentService.new(@user).perform
+			if payment_response.failure?
+				render status: :unauthorized, errors: payment_response.errors
 			end
 		end
+
+		'''Save Contribution '''
+		amount = @current_user.pending_contribution_amount
+		contribution_response = ContributionService.new(amount,@current_user).perform #STUB!
+		if contribution_response.failure? 
+			render status: :unauthorized, errors: contribution_response.errors
+		end
+		puts "SAVE CONTRIBUTION SUCCESSFUL"
+		contribution = contribution_response.result
+
+		'''Update User and Cause Relationship (amount contributed to cause) '''
+		user_cause_response = UpdateUserCauseService.new(@current_user,contribution.amount).perform #STUB!
+		if user_cause_response.failure?
+			render status: :unauthorized, errors: user_cause_response.errors
+		end
+
+		'''Update User and its active payment '''
+		user_payment_response = UpdateUserPaymentService.new(@current_user,contribution).perform #STUB!
+		if user_payment_response.failure?
+			render status: :unauthorized, errors: user_payment_response.errors
+		end
+
+		'''Check if payment is above threshold, if it is then we create a stripe charge '''
+		payment = user_payment_response.result
+		if payment.amount > PAYMENT_THRESHOLD
+			charge_response = CreateStripeChargeService.new(@current_user,payment).perform
+			if charge_response.failure?
+				render status: :unauthorized, errors: charge_response.errors
+			end
+			render status: :ok , json: charge_response.result.as_json
+		end
+		render status: :ok, json: payment.as_json
 	end
 
 	def get_user_contributions

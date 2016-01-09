@@ -12,17 +12,17 @@ class ContributionService < Aldous::Service
 			puts "@user.current_payment_id is nil"
 			Result::Failure.new(errors: "User does not have a current payment")
 		end
-		contribution = Contribution.new (
-							:amount => @amount,
-							:user_id => @user.id,
-							:user_name => @user.name,
-							:cause_id => @cause.id,
-							:cause_name => @cause.name,
-							:payment_id => @user.current_payment_id
+		contribution = Contribution.create(
+							amount: @amount,
+							user_id: @user.id,
+							user_name: @user.name,
+							cause_id: @cause.id,
+							cause_name: @cause.name,
+							payment_id: @user.current_payment_id
 						)
 		puts "contributing: "+@amount.to_s
 		if contribution.save
-			update_contribution_amount
+			update_contribution_amount(contribution)
 			update_contribution_streak
 			puts "successfully incremented amount"
 			Result::Success.new(result: contribution)
@@ -32,7 +32,7 @@ class ContributionService < Aldous::Service
 		end
 	end
 
-	def update_contribution_amount
+	def update_contribution_amount(contribution)
 		@user.increment!(:total_amount_contributed, contribution.amount)
 		puts "incrementing amount: "+contribution.amount.to_s+" by 1"
 		@user.increment!(:current_cause_amount_contributed, @amount)

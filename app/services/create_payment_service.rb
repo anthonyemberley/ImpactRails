@@ -1,21 +1,17 @@
 class CreatePaymentService < Aldous::Service
 	PAYMENT_THRESHOLD = 1000
 	
-	def initialize(contribution,user)
-		@contribution = contribution
+	def initialize(user)
 		@user = user
-		@cause = Cause.find_by(id:@user.current_cause_id)
 	end
 
 	def perform
-		is_first_payment = @user.current_payment_id.nil?
-		if is_first_payment
-			puts "user id: "+@user.id.to_s+ " is making a new payment"
-			new_payment = Payment.new
-			new_payment.amount = @contribution.amount
-			new_payment.user_id = @user.id
-			new_payment.cause_id = @user.current_cause_id
-			new_payment.cause_name = @cause.name
+		puts "user id: "+@user.id.to_s+ " is making a new payment"
+		new_payment = Payment.new(
+						:amount => 0,
+						:user_id => @user.id,
+						:user_name => @user.name
+			)
 			if new_payment.save
 				@contribution.update_attribute(:payment_id, new_payment.id)
 				link_user_to_new_payment(new_payment)
