@@ -44,7 +44,7 @@ class Api::SessionsController < Api::ApiController
 
 
 	def get_current_user
-		plaid_access_token = decrypt(@current_user.encrypted_plaid_token)
+		plaid_access_token = @current_user.plaid_token
 		gte_date = @current_user.last_contribution_date
 		response = GetTransactionsService.new(plaid_access_token, gte_date).perform
 		if response.success?

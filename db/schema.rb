@@ -11,15 +11,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151215043400) do
+ActiveRecord::Schema.define(version: 20160109215529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "active_admin_comments", force: :cascade do |t|
+    t.string   "namespace"
+    t.text     "body"
+    t.string   "resource_id",   null: false
+    t.string   "resource_type", null: false
+    t.integer  "author_id"
+    t.string   "author_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
+
+  create_table "admin_users", force: :cascade do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
+  add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
+
   create_table "blog_comments", force: :cascade do |t|
     t.integer  "cause_id"
     t.integer  "user_id"
-    t.string   "message"
+    t.text     "message"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "blog_post_id"
@@ -31,7 +64,7 @@ ActiveRecord::Schema.define(version: 20151215043400) do
 
   create_table "blog_posts", force: :cascade do |t|
     t.string   "title"
-    t.string   "blog_body"
+    t.text     "blog_body"
     t.string   "image_url"
     t.integer  "cause_id"
     t.datetime "created_at", null: false
@@ -79,6 +112,7 @@ ActiveRecord::Schema.define(version: 20151215043400) do
     t.datetime "updated_at", null: false
     t.integer  "cause_id"
     t.integer  "payment_id"
+    t.string   "cause_name"
   end
 
   add_index "contributions", ["cause_id"], name: "index_contributions_on_cause_id", using: :btree
@@ -98,7 +132,7 @@ ActiveRecord::Schema.define(version: 20151215043400) do
 
   create_table "messages", force: :cascade do |t|
     t.string   "title"
-    t.string   "message_body"
+    t.text     "message_body"
     t.string   "image_url"
     t.integer  "conversation_id"
     t.datetime "created_at",      null: false
@@ -115,7 +149,7 @@ ActiveRecord::Schema.define(version: 20151215043400) do
   create_table "organizations", force: :cascade do |t|
     t.string   "organization_name"
     t.integer  "nonprofit_id"
-    t.string   "summary"
+    t.text     "summary"
     t.string   "logo_url"
     t.string   "username"
     t.string   "encrypted_password"
@@ -134,18 +168,86 @@ ActiveRecord::Schema.define(version: 20151215043400) do
   end
 
   create_table "payments", force: :cascade do |t|
-    t.integer  "cause_id"
-    t.string   "cause_name"
     t.integer  "user_id"
     t.integer  "amount"
-    t.boolean  "transaction_completed", default: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.string   "stripe_transaction_id"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "has_charged", default: false
+    t.string   "user_name"
+    t.string   "user_email"
   end
 
-  add_index "payments", ["cause_id"], name: "index_payments_on_cause_id", using: :btree
   add_index "payments", ["user_id"], name: "index_payments_on_user_id", using: :btree
+
+  create_table "rpush_apps", force: :cascade do |t|
+    t.string   "name",                                null: false
+    t.string   "environment"
+    t.text     "certificate"
+    t.string   "password"
+    t.integer  "connections",             default: 1, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "type",                                null: false
+    t.string   "auth_key"
+    t.string   "client_id"
+    t.string   "client_secret"
+    t.string   "access_token"
+    t.datetime "access_token_expiration"
+  end
+
+  create_table "rpush_feedback", force: :cascade do |t|
+    t.string   "device_token", limit: 64, null: false
+    t.datetime "failed_at",               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "app_id"
+  end
+
+  add_index "rpush_feedback", ["device_token"], name: "index_rpush_feedback_on_device_token", using: :btree
+
+  create_table "rpush_notifications", force: :cascade do |t|
+    t.integer  "badge"
+    t.string   "device_token",      limit: 64
+    t.string   "sound",                        default: "default"
+    t.string   "alert"
+    t.text     "data"
+    t.integer  "expiry",                       default: 86400
+    t.boolean  "delivered",                    default: false,     null: false
+    t.datetime "delivered_at"
+    t.boolean  "failed",                       default: false,     null: false
+    t.datetime "failed_at"
+    t.integer  "error_code"
+    t.text     "error_description"
+    t.datetime "deliver_after"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "alert_is_json",                default: false
+    t.string   "type",                                             null: false
+    t.string   "collapse_key"
+    t.boolean  "delay_while_idle",             default: false,     null: false
+    t.text     "registration_ids"
+    t.integer  "app_id",                                           null: false
+    t.integer  "retries",                      default: 0
+    t.string   "uri"
+    t.datetime "fail_after"
+    t.boolean  "processing",                   default: false,     null: false
+    t.integer  "priority"
+    t.text     "url_args"
+    t.string   "category"
+  end
+
+  add_index "rpush_notifications", ["delivered", "failed"], name: "index_rpush_notifications_multi", where: "((NOT delivered) AND (NOT failed))", using: :btree
+
+  create_table "stripe_charges", force: :cascade do |t|
+    t.integer  "amount"
+    t.integer  "user_id"
+    t.string   "stripe_id"
+    t.string   "stripe_transaction_id"
+    t.string   "user_name"
+    t.integer  "payment_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
 
   create_table "user_categories", force: :cascade do |t|
     t.integer  "user_id"
@@ -176,7 +278,7 @@ ActiveRecord::Schema.define(version: 20151215043400) do
     t.integer  "current_cause_id"
     t.string   "current_cause_name"
     t.datetime "current_cause_join_date"
-    t.string   "encrypted_plaid_token"
+    t.string   "plaid_token"
     t.integer  "total_amount_contributed"
     t.integer  "current_cause_amount_contributed"
     t.datetime "last_contribution_date"

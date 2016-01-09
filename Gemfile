@@ -47,6 +47,8 @@ gem 'geokit-rails'
 gem 'frozen_record'
 #for testing
 gem 'rspec-rails'
+#for active admin
+gem 'activeadmin', github: 'activeadmin'
 
 
 group :staging do
