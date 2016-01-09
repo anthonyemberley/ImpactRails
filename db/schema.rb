@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160109204324) do
+ActiveRecord::Schema.define(version: 20160109215529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 20160109204324) do
   create_table "blog_comments", force: :cascade do |t|
     t.integer  "cause_id"
     t.integer  "user_id"
-    t.string   "message"
+    t.text     "message"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "blog_post_id"
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 20160109204324) do
 
   create_table "blog_posts", force: :cascade do |t|
     t.string   "title"
-    t.string   "blog_body"
+    t.text     "blog_body"
     t.string   "image_url"
     t.integer  "cause_id"
     t.datetime "created_at", null: false
@@ -132,7 +132,7 @@ ActiveRecord::Schema.define(version: 20160109204324) do
 
   create_table "messages", force: :cascade do |t|
     t.string   "title"
-    t.string   "message_body"
+    t.text     "message_body"
     t.string   "image_url"
     t.integer  "conversation_id"
     t.datetime "created_at",      null: false
@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(version: 20160109204324) do
   create_table "organizations", force: :cascade do |t|
     t.string   "organization_name"
     t.integer  "nonprofit_id"
-    t.string   "summary"
+    t.text     "summary"
     t.string   "logo_url"
     t.string   "username"
     t.string   "encrypted_password"
