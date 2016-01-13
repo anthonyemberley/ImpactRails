@@ -1,4 +1,7 @@
 ActiveAdmin.register Cause do
+  permit_params :name, :category, :description, :number_of_contributors, :goal, :current_total, \
+                :profile_image_url, :end_date, :organization_id, :organization_logo_url, :organization_name, \
+                :city, :state, :country, :longitude, :latitude
   config.sort_order = 'name_asc'
   config.per_page = 25
   form do |f|
