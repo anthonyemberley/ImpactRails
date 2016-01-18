@@ -14,15 +14,15 @@ class Api::CausesController < Api::ApiController
 		end
 	end
 
-	def show_cause_page
+	def show_extra_info
 		cause = Cause.find_by(id:params[:id])
 		if cause.present?
 			fb_sorted_users = cause.fb_sorted_users
 			blogs_posts = cause.blog_posts
-			render status: :ok , json: cause.attributes.merge({
+			render status: :ok , json: {
 			    :fb_sorted_users => fb_sorted_users, 
 			    :blogs_posts => blogs_posts
-			})
+			}.as_json
 		else
 			render_error(:bad_request,"Cannot find cause with id "+ params[:id])
 		end
