@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       '''Causes '''
       get "/causes/all"  => "causes#index"
       get "/causes/:id" => "causes#get"
+      get "/causes/show/:id" => "causes#show_cause_page"
       post "/causes/categories" => "causes#get_causes_from_categories"
       post "causes/:id/join" => "causes#join"
 
