@@ -13,7 +13,7 @@ class ContributionService < Aldous::Service
 			Result::Failure.new(errors: "User does not have a current payment")
 		end
 		contribution = Contribution.create(
-							amount: 500,#@amount,
+							amount: @amount,
 							user_id: @user.id,
 							user_name: @user.name,
 							cause_id: @cause.id,
@@ -36,6 +36,7 @@ class ContributionService < Aldous::Service
 		@user.increment!(:total_amount_contributed, contribution.amount)
 		puts "incrementing amount: "+contribution.amount.to_s+" by 1"
 		@user.increment!(:current_cause_amount_contributed, contribution.amount)
+		@user.decrement!(:pending_contribution_amount, contribution.amount)
 	end
 
 	def update_contribution_streak

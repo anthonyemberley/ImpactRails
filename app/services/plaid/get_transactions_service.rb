@@ -3,9 +3,9 @@ class GetTransactionsService < Aldous::Service
 	        @plaid_access_token = plaid_access_token
                 @gte_date = if gte_date.nil? then Time.now.getutc else gte_date end
                 #if the time is before beginning of the day, round up to beginning of the day
-                if @gte_date < DateTime.now.beginning_of_day
-                        @gte_date = DateTime.now.beginning_of_day
-                end
+                # if @gte_date < DateTime.now.beginning_of_day
+                #         @gte_date = DateTime.now.beginning_of_day
+                # end
 	end
 
 	def perform

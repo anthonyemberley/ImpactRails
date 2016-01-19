@@ -23,7 +23,13 @@ class Api::ContributionsController < Api::ApiController
 		end
 
 		'''Save Contribution '''
-		amount = @current_user.pending_contribution_amount
+		amount = params[:contribution][:amount]#@current_user.pending_contribution_amount
+		puts "SHOOOT!!"
+		puts @current_user.attributes
+		if amount > @current_user.pending_contribution_amount
+			render_error(:bad_request,"You cannot contribute more than the amount you've saved")
+			return
+		end
 		contribution_response = ContributionService.new(amount,@current_user).perform #STUB!
 		if contribution_response.failure? 
 			render_error(:bad_request,contribution_response.errors)

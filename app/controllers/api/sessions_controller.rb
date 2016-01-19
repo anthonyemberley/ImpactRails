@@ -51,8 +51,8 @@ class Api::SessionsController < Api::ApiController
 			transactions = response.result
 			contribution_object = CalculateContributionService.new(transactions).perform
 			if contribution_object.success?
-				money_accumulated_today = contribution_object.result
-				@current_user.update_attribute(:pending_contribution_amount, money_accumulated_today)
+				money_accumulated_since_last_contribution = contribution_object.result
+				@current_user.increment!(:pending_contribution_amount, money_accumulated_since_last_contribution)
 			end
 		elsif @current_user.pending_contribution_amount != 0
 			@current_user.update_attribute(:pending_contribution_amount, 0)
