@@ -45,7 +45,7 @@ class Api::SessionsController < Api::ApiController
 
 	def get_current_user
 		plaid_access_token = @current_user.plaid_token
-		gte_date = @current_user.last_contribution_date
+		gte_date = @current_user.updated_at
 		response = GetTransactionsService.new(plaid_access_token, gte_date).perform
 		if response.success?
 			transactions = response.result
@@ -54,8 +54,9 @@ class Api::SessionsController < Api::ApiController
 				money_accumulated_since_last_contribution = contribution_object.result
 				@current_user.increment!(:pending_contribution_amount, money_accumulated_since_last_contribution)
 			end
-		elsif @current_user.pending_contribution_amount != 0
-			@current_user.update_attribute(:pending_contribution_amount, 0)
+		else
+			render_error(:unauthorized, response.errors)
+			return
 		end
 		render_default_user_response(@current_user)
 	end 

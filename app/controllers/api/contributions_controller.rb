@@ -24,10 +24,7 @@ class Api::ContributionsController < Api::ApiController
 
 		'''Save Contribution '''
 		amount = params[:contribution][:amount]#@current_user.pending_contribution_amount
-		puts "SHOOOT!!"
-		puts @current_user.attributes
-		if amount > @current_user.pending_contribution_amount
-			render_error(:bad_request,"You cannot contribute more than the amount you've saved")
+		if !can_make_payment?(amount)
 			return
 		end
 		contribution_response = ContributionService.new(amount,@current_user).perform #STUB!
@@ -64,6 +61,28 @@ class Api::ContributionsController < Api::ApiController
 			return
 		end
 		render status: :ok, json: contribution.as_json
+	end
+
+	def can_make_payment?(amount)
+		if amount > @current_user.pending_contribution_amount
+			render_error(:bad_request,"You cannot contribute more than the amount you've saved")
+			return false
+		end
+		if @current_user.stripe_customer_id.blank?
+			render_error(:bad_request,"You cannot contribute until you have provided your credit card information")
+			return false
+		end
+		if @current_user.plaid_token.blank?
+			render_error(:bad_request,"You cannot contribute until you have provided your credit card information")
+			return false
+		end
+		if @current_user.current_cause_id.nil?
+			render_error(:bad_request,"You cannot contribute until you have joined this cause")
+			return false
+		end
+
+		return true
+
 	end
 
 	def get_user_contributions
