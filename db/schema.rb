@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160109215529) do
+ActiveRecord::Schema.define(version: 20160119172423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -272,21 +272,21 @@ ActiveRecord::Schema.define(version: 20160109215529) do
     t.string   "encrypted_password"
     t.string   "authentication_token"
     t.string   "salt"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
     t.integer  "facebook_id",                      limit: 8
     t.integer  "current_cause_id"
     t.string   "current_cause_name"
     t.datetime "current_cause_join_date"
     t.string   "plaid_token"
     t.integer  "total_amount_contributed"
-    t.integer  "current_cause_amount_contributed"
+    t.integer  "current_cause_amount_contributed",           default: 0
     t.datetime "last_contribution_date"
-    t.integer  "pending_contribution_amount"
+    t.integer  "pending_contribution_amount",                default: 0
     t.string   "stripe_customer_id"
     t.integer  "current_payment_id"
     t.decimal  "weekly_budget"
-    t.integer  "current_streak"
+    t.integer  "current_streak",                             default: 0
     t.integer  "total_contributions"
     t.string   "device_token"
   end
