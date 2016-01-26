@@ -12,7 +12,7 @@ class Api::PlaidApiController < Api::ApiController
 				}
 			else
 				@current_user.update_attribute(:plaid_token, plaid_token)
-				render_success_with_message(:ok,"Successfully hooked up bank account")
+				render_default_user_response(@current_user)
 			end
 		else
 			render_error(:unauthorized, response.errors)
@@ -27,7 +27,7 @@ class Api::PlaidApiController < Api::ApiController
 			if status == :ok
 				plaid_token = api_response.access_token
 				@current_user.update_attribute(:plaid_token, plaid_token)
-				render_success_with_message(:ok,"Successfully hooked up bank account")
+				render_default_user_response(@current_user)
 			else
 				render status: status , json: api_response.pending_mfa_questions.as_json
 			end	
@@ -46,7 +46,7 @@ class Api::PlaidApiController < Api::ApiController
 			else
 				plaid_token = api_response[:access_token]
 				@current_user.update_attribute(:plaid_token, plaid_token)
-				render_success_with_message(:ok,"Successfully retrieved bank account")
+				render_default_user_response(@current_user)
 			end
 		else
 			render_error(status, response.errors)
@@ -63,7 +63,7 @@ class Api::PlaidApiController < Api::ApiController
 			else
 				plaid_token = api_response[:access_token]
 				@current_user.update_attribute(:plaid_token, plaid_token)
-				render_success_with_message(:ok,"Successfully retrieved bank account")
+				render_default_user_response(@current_user)
 			end
 		else
 			render_error(status, response.errors)
@@ -113,5 +113,13 @@ class Api::PlaidApiController < Api::ApiController
 						:access_token => params[:plaid][:plaid_access_token]
 		}
 		return new_params
+	end
+
+	''' Render '''
+	def render_default_user_response(user)
+    	user_response = user.as_json
+    	user_response["needs_bank_information"] = user.plaid_token.blank?
+    	user_response["needs_credit_card_information"] = user.stripe_customer_id.blank?
+    	render status: :ok , json: user_response
 	end
 end
