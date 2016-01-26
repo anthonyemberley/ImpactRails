@@ -78,6 +78,9 @@ class Api::SessionsController < Api::ApiController
 
 	    '''RENDER'''
 	    def render_default_user_response(user)
-	    	render status: :ok , json: user.as_json
+	    	user_response = user.as_json
+	    	user_response["needs_bank_information"] = user.plaid_token.blank?
+	    	user_response["needs_credit_card_information"] = user.stripe_customer_id.blank?
+	    	render status: :ok , json: user_response
 		end
 end

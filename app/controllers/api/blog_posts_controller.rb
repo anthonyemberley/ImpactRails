@@ -24,8 +24,6 @@ class Api::BlogPostsController < Api::ApiController
 		render_list_of_blog_posts(@cause_blog_posts)
 	end
 
-
-
 	private
 		'''PARAMS'''
 		def create_params
