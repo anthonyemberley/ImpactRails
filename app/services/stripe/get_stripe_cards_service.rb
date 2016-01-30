@@ -7,8 +7,7 @@ class GetStripeCardsService < Aldous::Service
 
 	def perform
 		begin 
-			#@user.stripe_customer_id
-			card = Stripe::Customer.retrieve("cus_7cLFinzkc6a6HV").sources.data
+			card = Stripe::Customer.retrieve(@user.stripe_customer_id).sources.data
 			Result::Success.new(result: card)
 		rescue Exception => errors
 			Result::Failure.new(errors: errors.message)
