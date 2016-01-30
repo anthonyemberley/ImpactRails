@@ -58,7 +58,7 @@ class Api::SessionsController < Api::ApiController
 			render_error(:unauthorized, response.errors)
 			return
 		end
-		render_default_user_response(@current_user)
+		render_full_user_response(@current_user)
 	end 
 
 	private
@@ -81,6 +81,14 @@ class Api::SessionsController < Api::ApiController
 	    	user_response = user.as_json
 	    	user_response["needs_bank_information"] = user.plaid_token.blank?
 	    	user_response["needs_credit_card_information"] = user.stripe_customer_id.blank?
+	    	render status: :ok , json: user_response
+		end
+
+		def render_full_user_response(user)
+			user_response = user.as_json
+	    	user_response["needs_bank_information"] = user.plaid_token.blank?
+	    	user_response["needs_credit_card_information"] = user.stripe_customer_id.blank?
+	    	#card_info = GetStripeCardsService.new(user).perform
 	    	render status: :ok , json: user_response
 		end
 end

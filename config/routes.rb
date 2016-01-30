@@ -38,6 +38,8 @@ Rails.application.routes.draw do
       get "/plaid/transactions" => "plaid_api#get_transactions"
       get "/plaid/banks" => "plaid_api#get_banks"
 
+      '''Stripe '''
+      get "/stripe/cards" => "stripe_cards#get_credit_cards"
 
       '''Messages'''
       post "/message/create" => "messages#create"
