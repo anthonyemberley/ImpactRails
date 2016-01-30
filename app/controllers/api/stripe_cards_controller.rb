@@ -1,4 +1,4 @@
-class Api::StripeCardsController < ApplicationController
+class Api::StripeCardsController < Api::ApiController
 	def get_credit_cards
 		response = GetStripeCardsService.new(@current_user).perform
 		if response.success? 
