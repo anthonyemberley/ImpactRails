@@ -23,6 +23,8 @@ Rails.application.routes.draw do
       post "/current_user/causes/leave" => "users#leave_current_cause"
       post "/current_user/update/weekly_budget" => "users#update_weekly_budget"
       post "/current_user/update/clear_streak" => "users#clear_streak"
+      put "/current_user/change/password" => "users#change_password"
+      put "/current_user/change/email" => "users#change_email"
 
       '''Contributions '''
       post "/contributions/add_card" => "contributions#add_card"
