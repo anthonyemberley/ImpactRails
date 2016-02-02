@@ -39,6 +39,7 @@ class FacebookAuthenticationService < Aldous::Service
 			new_user = User.new
 			new_user.name = facebook_user_object.name
 			new_user.facebook_id = facebook_user_object.id
+			new_user.salt = BCrypt::Engine.generate_salt
 			if new_user.save
 				UpdateDeviceTokenService.new(new_user,@device_token).perform
 				Result::Success.new(result: new_user)
