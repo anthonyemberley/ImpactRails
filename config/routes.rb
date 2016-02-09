@@ -42,6 +42,7 @@ Rails.application.routes.draw do
 
       '''Stripe '''
       get "/stripe/cards" => "stripe_cards#get_credit_cards"
+      delete "/stripe/delete/card" => "stripe_card#delete_card"
 
       '''Messages'''
       post "/message/create" => "messages#create"
