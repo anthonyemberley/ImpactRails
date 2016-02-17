@@ -27,7 +27,7 @@ Rails.application.routes.draw do
       put "/current_user/change/email" => "users#change_email"
 
       '''Contributions '''
-      post "/contributions/add_card" => "contributions#add_card"
+      post "/contributions/create_customer" => "contributions#create_customer"
       post "/contributions/pay" => "contributions#pay"
       get "/current_user/contributions" => "contributions#get_user_contributions"
       get "/causes/:id/contributions" => "contributions#get_cause_contributions"
@@ -41,6 +41,7 @@ Rails.application.routes.draw do
       get "/plaid/banks" => "plaid_api#get_banks"
 
       '''Stripe '''
+      post "/stripe/add_card" => "stripe_cards#add_card"
       get "/stripe/cards" => "stripe_cards#get_credit_cards"
       delete "/stripe/delete/card" => "stripe_card#delete_card"
 

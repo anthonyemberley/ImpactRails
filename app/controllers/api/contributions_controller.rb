@@ -2,7 +2,7 @@ class Api::ContributionsController < Api::ApiController
 	CONTRIBUTIONS_USER_KEY = "contribution"
 	PAYMENT_THRESHOLD = 1000
 
-	def add_card
+	def create_customer
 		response = CreateStripeCustomerService.new(@current_user,params[:contribution][:stripe_generated_token]).perform
 		if response.success?
 			@current_user.update_attribute(:stripe_customer_id,response.result[:id])
@@ -11,6 +11,7 @@ class Api::ContributionsController < Api::ApiController
 			render_error(:unauthorized, response.errors)
 		end
 	end
+
 
 	def pay
 		'''Check if user has current active payment, create one if not'''

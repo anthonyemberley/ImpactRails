@@ -9,6 +9,16 @@ class Api::StripeCardsController < Api::ApiController
 		end
 	end
 
+	def add_card
+		response = AddStripeCardCustomerService.new(@current_user,params[:contribution][:stripe_generated_token]).perform
+		if response.success?
+			render status: :ok , json: response.as_json
+		else
+			render_error(:unauthorized, response.errors)
+		end	
+	end
+
+
 	def delete_card
 		stripe_card_id = params[:card][:stripe_card_id]
 		response = DeleteStripeCardService.new(@current_user,stripe_card_id).perform
