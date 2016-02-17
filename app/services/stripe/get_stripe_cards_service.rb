@@ -12,7 +12,7 @@ class GetStripeCardsService < Aldous::Service
 			return
 		end
 		begin 
-			card = Stripe::Customer.retrieve(@user.stripe_customer_id).sources.data
+			card = Stripe::Customer.retrieve(@user.stripe_customer_id).sources.all(:limit => 3, :object => "card")
 			puts "retrieved "+card.to_s
 			Result::Success.new(result: card)
 		rescue Exception => errors
