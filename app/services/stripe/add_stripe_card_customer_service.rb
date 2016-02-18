@@ -13,8 +13,8 @@ class AddStripeCardCustomerService < Aldous::Service
 		begin 
 			customer = Stripe::Customer.retrieve(@stripe_customer_id)
 			result = customer.sources.create(
-				:source => stripe_generated_token
-				:description => "Added New Card For "+@user.id.to_s,
+				:source => stripe_generated_token,
+				:description => "Added New Card For "+@user.id.to_s
 				)
 			 Result::Success.new(result: result)
 		rescue Exception => errors
