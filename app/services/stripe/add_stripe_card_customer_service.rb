@@ -15,7 +15,7 @@ class AddStripeCardCustomerService < Aldous::Service
 			puts "made it here"
 			puts "customer" + customer.to_s
 			result = customer.sources.create(
-				:source => stripe_generated_token,
+				:source => @stripe_generated_token,
 				:description => "Added New Card For "+@user.id.to_s
 				)
 			 Result::Success.new(result: result)
