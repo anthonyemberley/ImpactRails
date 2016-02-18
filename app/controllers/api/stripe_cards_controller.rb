@@ -20,9 +20,7 @@ class Api::StripeCardsController < Api::ApiController
 
 
 	def delete_card
-		puts "begin method"
 		stripe_card_id = params[:card][:stripe_card_id]
-		puts "we here"
 		response = DeleteStripeCardService.new(@current_user,stripe_card_id).perform
 		if response.succes?
 			render status: :ok , json: response.result.as_json

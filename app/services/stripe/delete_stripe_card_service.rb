@@ -8,9 +8,9 @@ class DeleteStripeCardService < Aldous::Service
 
 	def perform
 		puts "here"
-		if user.stripe_card_id == @stripe_card_id
-			user.update_attribute(:stripe_card_id,nil)
-		end
+		#if user.stripe_card_id == @stripe_card_id
+		#	user.update_attribute(:stripe_card_id,nil)
+		#end
 		puts "here2"
 		begin 
 			puts "here3"
