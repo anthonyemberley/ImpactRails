@@ -17,8 +17,10 @@ class DeleteStripeCardService < Aldous::Service
 			customer = Stripe::Customer.retrieve(@user.stripe_customer_id)
 			puts "here4"
 			response = customer.sources.retrieve(@stripe_card_id).delete
+			puts "here 5"
 			Result::Success.new(result: response)
 		rescue Exception => errors
+			puts errors.message.to_s
 			Result::Failure.new(errors: errors.message)
 		end
 	end
