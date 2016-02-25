@@ -18,6 +18,15 @@ class Api::StripeCardsController < Api::ApiController
 		end	
 	end
 
+	def update_card
+		response = UpdateStripeCardCustomerService.new(@current_user, params[:card][:card_id], params[:card][:exp_month], params[:card][:exp_year]).perform
+		if response.success?
+			render status: :ok , json: response.as_json
+		else
+			render_error(:unauthorized, response.errors)
+		end	
+	end
+
 
 	def delete_card
 		stripe_card_id = params[:card][:stripe_card_id]
