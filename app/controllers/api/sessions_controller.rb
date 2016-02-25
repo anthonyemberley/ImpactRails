@@ -36,7 +36,7 @@ class Api::SessionsController < Api::ApiController
 	def logout
 		response = LogoutService.new(@current_user).perform
 		if response.success?
-			render_success_with_message("User has successfully logged out")
+			render status: :ok, json: "User has successfully logged out".as_json
 		else
 			render_error(:unauthorized, response.errors)
 		end
