@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       '''Contributions '''
       post "/contributions/create_customer" => "contributions#create_customer"
       post "/contributions/pay" => "contributions#pay"
+      post "/contributions/flat_donation" => "contributions#flat_donation"
       get "/current_user/contributions" => "contributions#get_user_contributions"
       get "/causes/:id/contributions" => "contributions#get_cause_contributions"
 

@@ -14,6 +14,54 @@ class Api::ContributionsController < Api::ApiController
 
 	def flat_donation
 		
+		# '''Check if user has current active payment, create one if not'''
+		# no_current_payment = @current_user.current_payment_id.nil?
+		# if no_current_payment
+		# 	payment_response = CreatePaymentService.new(@current_user).perform
+		# 	if payment_response.failure?
+		# 		render_error(:bad_request,payment_response.errors)
+		# 	end
+		# end
+
+		# '''Save Contribution '''
+		# amount = params[:contribution][:amount]#@current_user.pending_contribution_amount
+		# causeID = params[:contribution][:cause_id]
+
+		# if !can_make_flat_donation?(amount)
+		# 	return
+		# end
+
+
+
+		# flat_donation_response = FlatDonationService.new(amount,@current_user, causeID).perform #STUB!
+		# if flat_donation_response.failure? 
+		# 	render_error(:bad_request,flat_donation_response.errors)
+		# 	return
+		# end
+		# puts "SAVE CONTRIBUTION SUCCESSFUL"
+		# contribution = flat_donation_response.result
+
+		# '''Deleted updating relationship cause we dont need one?'''
+
+		# '''Update User and its active payment '''
+		# user_payment_response = UpdateUserPaymentService.new(@current_user,contribution).perform #STUB!
+		# if user_payment_response.failure?
+		# 	render_error(:bad_request,user_payment_response.errors)
+		# 	return
+		# end
+
+		# '''Check if payment is above threshold, if it is then we create a stripe charge '''
+		# payment = user_payment_response.result
+		# if payment.amount > PAYMENT_THRESHOLD
+		# 	charge_response = CreateStripeChargeService.new(@current_user,payment).perform
+		# 	if charge_response.failure?
+		# 		render_error(:bad_request,charge_response.errors)
+		# 		return
+		# 	end
+		# 	render status: :ok , json: charge_response.result.as_json
+		# 	return
+		# end
+		# render status: :ok, json: contribution.as_json
 
 	end
 
@@ -88,6 +136,25 @@ class Api::ContributionsController < Api::ApiController
 		end
 
 		return true
+
+	end
+
+	def can_make_flat_donation(amount)
+		if @current_user.stripe_customer_id.blank?
+			render_error(:bad_request,"You cannot contribute until you have provided your credit card information")
+			return false
+		end
+		if @current_user.plaid_token.blank?
+			render_error(:bad_request,"You cannot contribute until you have provided your credit card information")
+			return false
+		end
+		if @current_user.current_cause_id.nil?
+			render_error(:bad_request,"You cannot contribute until you have joined this cause")
+			return false
+		end
+
+		return true
+
 
 	end
 
