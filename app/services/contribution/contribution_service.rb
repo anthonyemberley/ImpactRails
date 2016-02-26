@@ -28,6 +28,7 @@ class ContributionService < Aldous::Service
 			Result::Success.new(result: contribution)
 		else
 			puts "SAVE CONTRIBUTION ERRORS"
+			puts contribution.errors.to_s
 			Result::Failure.new(errors: contribution.errors)
 		end
 	end

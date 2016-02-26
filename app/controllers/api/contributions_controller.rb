@@ -12,6 +12,11 @@ class Api::ContributionsController < Api::ApiController
 		end
 	end
 
+	def flat_donation
+		
+
+	end
+
 
 	def pay
 		'''Check if user has current active payment, create one if not'''

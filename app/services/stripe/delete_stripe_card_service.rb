@@ -21,8 +21,6 @@ class DeleteStripeCardService < Aldous::Service
 			Result::Success.new(result: response)
 			puts response.to_s
 		rescue Exception => errors
-			puts errors.message.to_s
-			puts "here 6"
 			Result::Failure.new(errors: errors.message)
 		end
 	end
