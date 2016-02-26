@@ -23,12 +23,14 @@ Rails.application.routes.draw do
       post "/current_user/causes/leave" => "users#leave_current_cause"
       post "/current_user/update/weekly_budget" => "users#update_weekly_budget"
       post "/current_user/update/clear_streak" => "users#clear_streak"
+      post "/current_user/clear_pending_contribution" => "users#clear_pending_contribution"
       put "/current_user/change/password" => "users#change_password"
       put "/current_user/change/email" => "users#change_email"
 
       '''Contributions '''
       post "/contributions/create_customer" => "contributions#create_customer"
       post "/contributions/pay" => "contributions#pay"
+      post "/contributions/flat_donation" => "contributions#flat_donation"
       get "/current_user/contributions" => "contributions#get_user_contributions"
       get "/causes/:id/contributions" => "contributions#get_cause_contributions"
 

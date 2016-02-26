@@ -1,23 +1,17 @@
-class ContributionService < Aldous::Service
+class FlatDonationService < Aldous::Service
 	
-	def initialize(amount, user)
+	def initialize(amount, user, cause_id)
 		@amount = amount
 		@user = user
-		@cause = Cause.find_by(id:@user.current_cause_id)
+		@cause = Cause.find_by(id:cause_id)
 	end
 
 	def perform
-		puts "SAVE CONTRIBUTION SERVICE!!!"
+		puts "SAVE FLAT DONATION SERVICE!!!"
 		if @user.current_payment_id.nil?
 			puts "@user.current_payment_id is nil"
 			Result::Failure.new(errors: "User does not have a current payment")
 		end
-		puts "amount:" + @amount.to_s
-	    puts "user_id:" + @user.id.to_s
-		puts "user_name: " + @user.name.to_s
-		puts "cause_id: " + @cause.id.to_s
-		puts "cause_name: " + @cause.name.to_s
-		puts "payment_id: " + @user.current_payment_id.to_s
 
 		contribution = Contribution.create(
 							amount: @amount,
@@ -27,7 +21,7 @@ class ContributionService < Aldous::Service
 							cause_name: @cause.name,
 							payment_id: @user.current_payment_id
 						)
-		puts "contributing: "+@amount.to_s
+		puts "Donating: "+@amount.to_s
 		if contribution.save
 			update_contribution_amount(contribution)
 			update_contribution_streak
@@ -43,8 +37,8 @@ class ContributionService < Aldous::Service
 	def update_contribution_amount(contribution)
 		@user.increment!(:total_amount_contributed, contribution.amount)
 		puts "incrementing amount: "+contribution.amount.to_s+" by 1"
-		@user.increment!(:current_cause_amount_contributed, contribution.amount)
-		@user.decrement!(:pending_contribution_amount, contribution.amount)
+		#@user.increment!(:current_cause_amount_contributed, contribution.amount)
+		#@user.decrement!(:pending_contribution_amount, contribution.amount)
 	end
 
 	def update_contribution_streak

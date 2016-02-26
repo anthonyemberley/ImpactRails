@@ -12,8 +12,6 @@ class AddStripeCardCustomerService < Aldous::Service
 	def perform
 		begin 
 			customer = Stripe::Customer.retrieve(@stripe_customer_id)
-			puts "made it here"
-			puts "customer" + customer.to_s
 			result = customer.sources.create(
 				:source => @stripe_generated_token,
 				)
