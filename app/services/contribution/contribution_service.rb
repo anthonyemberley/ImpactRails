@@ -12,12 +12,12 @@ class ContributionService < Aldous::Service
 			puts "@user.current_payment_id is nil"
 			Result::Failure.new(errors: "User does not have a current payment")
 		end
-		puts "amount:" + @amount
-	    puts "user_id:" + @user.id
-		puts "user_name: " + @user.name
-		puts "cause_id: " +@cause.id
-		puts "cause_name: " +@cause.name
-		puts "payment_id: " +@user.current_payment_id
+		puts "amount:" + @amount.to_s
+	    puts "user_id:" + @user.id.to_s
+		puts "user_name: " + @user.name.to_s
+		puts "cause_id: " + @cause.id.to_s
+		puts "cause_name: " + @cause.name.to_s
+		puts "payment_id: " + @user.current_payment_id.to_s
 
 		contribution = Contribution.create(
 							amount: @amount,
