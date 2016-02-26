@@ -13,7 +13,7 @@ class Api::ContributionsController < Api::ApiController
 	end
 
 	def flat_donation
-		
+
 		# '''Check if user has current active payment, create one if not'''
 		# no_current_payment = @current_user.current_payment_id.nil?
 		# if no_current_payment
@@ -31,17 +31,34 @@ class Api::ContributionsController < Api::ApiController
 		# 	return
 		# end
 
-
-
-		# flat_donation_response = FlatDonationService.new(amount,@current_user, causeID).perform #STUB!
-		# if flat_donation_response.failure? 
-		# 	render_error(:bad_request,flat_donation_response.errors)
-		# 	return
-		# end
-		# puts "SAVE CONTRIBUTION SUCCESSFUL"
-		# contribution = flat_donation_response.result
-
 		# '''Deleted updating relationship cause we dont need one?'''
+		# if causeID == @current_user.current_cause_id
+		# 	contribution_response = ContributionService.new(amount,@current_user).perform #STUB!
+		# 	if contribution_response.failure? 
+		# 		render_error(:bad_request,contribution_response.errors)
+		# 		return
+		# 	end
+		# 	puts "SAVE CONTRIBUTION SUCCESSFUL"
+		# 	contribution = contribution_response.result
+
+		# 	'''Update User and Cause Relationship (amount contributed to cause) '''
+		# 	user_cause_response = UpdateUserCauseService.new(@current_user,contribution.amount).perform #STUB!
+		# 	if user_cause_response.failure?
+		# 		render_error(:bad_request,user_cause_response.errors)
+		# 		return
+		# 	end
+			
+		# else
+		# 	flat_donation_response = FlatDonationService.new(amount,@current_user, causeID).perform #STUB!
+		# 	if flat_donation_response.failure? 
+		# 		render_error(:bad_request,flat_donation_response.errors)
+		# 		return
+		# 	end
+		# 	puts "SAVE CONTRIBUTION SUCCESSFUL"
+		# 	contribution = flat_donation_response.result
+
+		# end
+
 
 		# '''Update User and its active payment '''
 		# user_payment_response = UpdateUserPaymentService.new(@current_user,contribution).perform #STUB!
