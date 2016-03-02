@@ -25,18 +25,20 @@ class Api::ContributionsController < Api::ApiController
 
 		puts "here"
 
-		'''Save Contribution '''
-		amount = params[:contribution][:amount]#@current_user.pending_contribution_amount
+		amount = params[:contribution][:amount]
+		puts "here"
 		causeID = params[:contribution][:cause_id]
-
+		puts "here"
 		if !can_make_flat_donation?(amount)
+			puts "here"
 			return
 		end
 
 				puts "here"
 
+		'''Save Contribution '''
 
-		'''Deleted updating relationship cause we dont need one?'''
+
 		if causeID == @current_user.current_cause_id
 			contribution_response = ContributionService.new(amount,@current_user).perform #STUB!
 			if contribution_response.failure? 
