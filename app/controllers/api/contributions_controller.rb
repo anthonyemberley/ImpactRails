@@ -23,6 +23,8 @@ class Api::ContributionsController < Api::ApiController
 			end
 		end
 
+		puts "here"
+
 		'''Save Contribution '''
 		amount = params[:contribution][:amount]#@current_user.pending_contribution_amount
 		causeID = params[:contribution][:cause_id]
@@ -30,6 +32,9 @@ class Api::ContributionsController < Api::ApiController
 		if !can_make_flat_donation?(amount)
 			return
 		end
+
+				puts "here"
+
 
 		'''Deleted updating relationship cause we dont need one?'''
 		if causeID == @current_user.current_cause_id
@@ -59,6 +64,9 @@ class Api::ContributionsController < Api::ApiController
 
 		end
 
+				puts "here"
+
+
 
 		'''Update User and its active payment '''
 		user_payment_response = UpdateUserPaymentService.new(@current_user,contribution).perform #STUB!
@@ -66,6 +74,9 @@ class Api::ContributionsController < Api::ApiController
 			render_error(:bad_request,user_payment_response.errors)
 			return
 		end
+
+				puts "here"
+
 
 		'''Check if payment is above threshold, if it is then we create a stripe charge '''
 		payment = user_payment_response.result
