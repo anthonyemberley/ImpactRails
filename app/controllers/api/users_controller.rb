@@ -20,6 +20,16 @@ class Api::UsersController < Api::ApiController
 		end
 	end
 
+	def update_automatic_donations
+		response = UpdateAutomaticDonationsService.new(@current_user).perform
+		if response.success?
+		 	render_default_user_response(@current_user)
+		else
+		 	render_error(:unauthorized, response.errors)
+		end
+
+	end
+
 
 	def change_password
 		 new_password = params[:change][:password]
