@@ -26,21 +26,19 @@ class Api::ContributionsController < Api::ApiController
 		puts "here"
 
 		amount = params[:contribution][:amount]
-		puts "here"
 		causeID = params[:contribution][:cause_id]
-		puts "here"
-		if !can_make_flat_donation?(amount)
-			puts "here"
-			return
-		end
+		# if !can_make_flat_donation?(amount)
+		# 	puts "here"
+		# 	return
+		# end
 
-				puts "here"
 
 		'''Save Contribution '''
 
 
 		if causeID == @current_user.current_cause_id
 			contribution_response = ContributionService.new(amount,@current_user).perform #STUB!
+			puts "here"
 			if contribution_response.failure? 
 				render_error(:bad_request,contribution_response.errors)
 				return
@@ -54,8 +52,10 @@ class Api::ContributionsController < Api::ApiController
 				render_error(:bad_request,user_cause_response.errors)
 				return
 			end
+			puts "here"
 			
 		else
+			puts "else here"
 			flat_donation_response = FlatDonationService.new(amount,@current_user, causeID).perform #STUB!
 			if flat_donation_response.failure? 
 				render_error(:bad_request,flat_donation_response.errors)
@@ -184,8 +184,6 @@ class Api::ContributionsController < Api::ApiController
 		end
 
 		return true
-
-
 	end
 
 	def get_user_contributions
