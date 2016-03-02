@@ -23,14 +23,12 @@ class Api::ContributionsController < Api::ApiController
 			end
 		end
 
-		puts "here"
 
 		amount = params[:contribution][:amount]
 		causeID = params[:contribution][:cause_id]
-		# if !can_make_flat_donation?(amount)
-		# 	puts "here"
-		# 	return
-		# end
+		if !can_make_flat_donation?(amount)
+			return
+		end
 
 
 		'''Save Contribution '''
@@ -38,7 +36,6 @@ class Api::ContributionsController < Api::ApiController
 
 		if causeID == @current_user.current_cause_id
 			contribution_response = ContributionService.new(amount,@current_user).perform #STUB!
-			puts "here"
 			if contribution_response.failure? 
 				render_error(:bad_request,contribution_response.errors)
 				return
@@ -52,10 +49,8 @@ class Api::ContributionsController < Api::ApiController
 				render_error(:bad_request,user_cause_response.errors)
 				return
 			end
-			puts "here"
 			
 		else
-			puts "else here"
 			flat_donation_response = FlatDonationService.new(amount,@current_user, causeID).perform #STUB!
 			if flat_donation_response.failure? 
 				render_error(:bad_request,flat_donation_response.errors)
@@ -66,7 +61,6 @@ class Api::ContributionsController < Api::ApiController
 
 		end
 
-				puts "here"
 
 
 
@@ -77,7 +71,6 @@ class Api::ContributionsController < Api::ApiController
 			return
 		end
 
-				puts "here"
 
 
 		'''Check if payment is above threshold, if it is then we create a stripe charge '''
@@ -169,7 +162,7 @@ class Api::ContributionsController < Api::ApiController
 
 	end
 
-	def can_make_flat_donation(amount)
+	def can_make_flat_donation?(amount)
 		if @current_user.stripe_customer_id.blank?
 			render_error(:bad_request,"You cannot contribute until you have provided your credit card information")
 			return false
