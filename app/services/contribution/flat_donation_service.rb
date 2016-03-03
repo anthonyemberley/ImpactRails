@@ -37,8 +37,9 @@ class FlatDonationService < Aldous::Service
 	def update_contribution_amount(contribution)
 		@user.increment!(:total_amount_contributed, contribution.amount)
 		puts "incrementing amount: "+contribution.amount.to_s+" by 1"
-		#@user.increment!(:current_cause_amount_contributed, contribution.amount)
-		#@user.decrement!(:pending_contribution_amount, contribution.amount)
+		if cause_id == user.current_cause_id
+			@user.increment!(:current_cause_amount_contributed, contribution.amount)
+		end
 	end
 
 	def update_contribution_streak

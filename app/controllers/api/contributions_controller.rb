@@ -35,7 +35,7 @@ class Api::ContributionsController < Api::ApiController
 
 
 		if causeID == @current_user.current_cause_id
-			contribution_response = ContributionService.new(amount,@current_user).perform #STUB!
+			contribution_response = FlatDonationService.new(amount,@current_user, causeID).perform #STUB!
 			if contribution_response.failure? 
 				render_error(:bad_request,contribution_response.errors)
 				return
