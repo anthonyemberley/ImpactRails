@@ -37,7 +37,7 @@ class FlatDonationService < Aldous::Service
 	def update_contribution_amount(contribution)
 		@user.increment!(:total_amount_contributed, contribution.amount)
 		puts "incrementing amount: "+contribution.amount.to_s+" by 1"
-		if cause_id == user.current_cause_id
+		if @cause.id == @user.current_cause_id
 			@user.increment!(:current_cause_amount_contributed, contribution.amount)
 		end
 	end
