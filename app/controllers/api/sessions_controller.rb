@@ -1,7 +1,7 @@
 class Api::SessionsController < Api::ApiController
 	USER_RESPONSE_KEY = "user"
 	FACEBOOK_RESPONSE_KEY = "facebook"
-	skip_before_filter :authenticate_user_from_token, :only => [:sign_up, :login, :facebook_authentication, :send_email]
+	skip_before_filter :authenticate_user_from_token, :only => [:sign_up, :login, :facebook_authentication, :reset_password]
 
 	def sign_up
 		response = CreateUserService.new(create_user_params).perform
@@ -24,7 +24,7 @@ class Api::SessionsController < Api::ApiController
 		end
 	end
 
-	def send_email
+	def reset_password
 		email = params[:email]
 
 		user = User.find_by(email: email)
