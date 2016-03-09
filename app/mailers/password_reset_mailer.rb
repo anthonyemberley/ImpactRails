@@ -25,10 +25,6 @@ class PasswordResetMailer < ApplicationMailer
 		 	render_error(:unauthorized, response.errors)
 		 end
 
-
-
-
-
 	  end
 
 	
