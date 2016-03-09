@@ -1,7 +1,7 @@
 class Api::SessionsController < Api::ApiController
 	USER_RESPONSE_KEY = "user"
 	FACEBOOK_RESPONSE_KEY = "facebook"
-	skip_before_filter :authenticate_user_from_token, :only => [:sign_up, :login, :facebook_authentication]
+	skip_before_filter :authenticate_user_from_token, :only => [:sign_up, :login, :facebook_authentication, :reset_password]
 
 	def sign_up
 		response = CreateUserService.new(create_user_params).perform
@@ -14,6 +14,7 @@ class Api::SessionsController < Api::ApiController
 	end
 
 	def login
+		puts "pass: " + params[:user][:password]
 		response = PasswordLoginUserService.new(password_login_parms).perform
 		if response.success?
 			@current_user = response.result
@@ -21,6 +22,31 @@ class Api::SessionsController < Api::ApiController
 		else
 			render_error(:unauthorized,response.errors)
 		end
+	end
+
+	def reset_password
+		email = params[:email]
+
+		user = User.find_by(email: email)
+
+		if user.present?
+	      	PasswordResetMailer.password_reset(user).deliver_now
+	      
+	      	 respond_to do |format|
+		     	        format.json { render json: "Sent Email? TODO: fix response here", status: :created, location: "yeez" }
+
+		    	end
+	      	
+	 
+	        #format.html { redirect_to(@user, notice: 'User was successfully created.') }
+	   
+
+		else
+			render_error(:unauthorized, "no user with this email")
+		end
+
+
+		
 	end
 
 	def facebook_authentication

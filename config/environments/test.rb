@@ -16,6 +16,20 @@ Rails.application.configure do
   config.serve_static_files   = true
   config.static_cache_control = 'public, max-age=3600'
 
+
+
+    config.action_mailer.delivery_method = :smtp
+config.action_mailer.smtp_settings = {
+  address:              'smtp.gmail.com',
+  port:                 587,
+  domain:               'gmail.com',
+  user_name:            'impactappmailer@gmail.com',
+  password:             'Impact100',
+  authentication:       'plain',
+  enable_starttls_auto: true  }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false

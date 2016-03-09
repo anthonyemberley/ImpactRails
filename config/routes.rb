@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       put "/current_user/change/password" => "users#change_password"
       put "/current_user/change/email" => "users#change_email"
       put "/current_user/change/automatic_donations" => "users#update_automatic_donations"
+      post "/reset_password" => "sessions#reset_password"
 
       '''Contributions '''
       post "/contributions/create_customer" => "contributions#create_customer"
