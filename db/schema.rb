@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160302213550) do
+ActiveRecord::Schema.define(version: 20160309163627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -232,6 +232,7 @@ ActiveRecord::Schema.define(version: 20160302213550) do
     t.string   "device_token"
     t.string   "bank"
     t.boolean  "automatic_donations",                        default: false
+    t.string   "profile_image_url"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree
