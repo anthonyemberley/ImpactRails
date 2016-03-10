@@ -30,6 +30,16 @@ class Api::UsersController < Api::ApiController
 
 	end
 
+	def update_profile_image_url
+		response = UpdateProfileImageURLService.new(params, @current_user).perform
+		if response.success?
+			render_default_user_response(@current_user)
+		else
+			render_error(:unauthorized, response.errors)
+		end
+	end
+
+
 
 	def change_password
 		 new_password = params[:change][:password]
