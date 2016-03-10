@@ -1,7 +1,7 @@
 class UpdateProfileImageURLService < Aldous::Service
 	
 	def initialize(params, user)
-		@new_url = params[:url]
+		@new_url = params[:user][:profile_image_url]
 		@user = user
 	end
 
@@ -17,7 +17,7 @@ class UpdateProfileImageURLService < Aldous::Service
 	private 
 
 	def update_user
-		@user.update_attribute(:profile_image_url, @value.to_s)
+		@user.update_attribute(:profile_image_url, @new_url.to_s)
 	end
 
 end
