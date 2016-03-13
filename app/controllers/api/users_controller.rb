@@ -62,6 +62,16 @@ class Api::UsersController < Api::ApiController
 		end
 	end
 
+	def change_name
+		new_name = params[:change][:name]
+		response = ChangeNameService.new(@current_user,new_name).perform
+		if response.success?
+		 	render_default_user_response(@current_user)
+		else
+		 	render_error(:unauthorized, response.errors)
+		end
+	end
+
 	def clear_pending_contribution
 		response = ClearPendingContributionService.new(@current_user).perform
 		if response.success?
