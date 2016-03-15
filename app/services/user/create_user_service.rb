@@ -3,10 +3,18 @@ class CreateUserService < Aldous::Service
 	def initialize(user_params)
 		@user_params = user_params
 		@device_token = user_params[:device_token]
+		@email = user_params[:email].downcase
+		@name = user_params[:name]
+		@password = user_params[:password]
 	end
 
 	def perform
-		new_user = User.new(@user_params)
+		new_user = User.new(
+							email: @email,
+							name: @password,
+							device_token: @device_token,
+							password: @password
+						)
 		if new_user.save
 			UpdateDeviceTokenService.new(new_user,@device_token).perform
 			Result::Success.new(result: new_user)

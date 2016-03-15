@@ -7,7 +7,7 @@ class PasswordLoginUserService < Aldous::Service
 	end
 
 	def perform
-		user = User.find_by(email: @email)
+		user = User.find_by(email: @email.downcase)
 		if user && BCrypt::Engine.hash_secret(@inputted_password, user.salt) == user.encrypted_password
 			UpdateDeviceTokenService.new(user,@device_token).perform
 	   		Result::Success.new(result: user)
