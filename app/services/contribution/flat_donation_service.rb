@@ -50,13 +50,13 @@ class FlatDonationService < Aldous::Service
 		puts "here1"
 		more_than_a_week = last_budget_start_period + 7.days < Time.now
 		puts "here2"
-		if more_than_a_week
+		if more_than_a_week && !@user.weekly_budget.nil?
 			if @amount > @user.weekly_budget 
 				puts "more than a weekly"
 				Result::Failure.new(errors: "Above the weekly budget")
 			end
 
-		else
+		else if !more_than_a_week && !@user.weekly_budget.nil?
 			if @amount + @user.amount_contributed_this_period > @user.weekly_budget
 				puts "not more than a week"
 				Result::Failure.new(errors: "Above the weekly budget")
