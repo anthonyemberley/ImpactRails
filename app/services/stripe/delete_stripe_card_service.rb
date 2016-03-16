@@ -8,6 +8,7 @@ class DeleteStripeCardService < Aldous::Service
 
 	def perform
 		begin 
+			puts "here"
 			card = Stripe::Customer.retrieve(@user.stripe_customer_id).sources.data
 			puts "here1"
 			card_array = Array(card)
