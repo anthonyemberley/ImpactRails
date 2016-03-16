@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160309163627) do
+ActiveRecord::Schema.define(version: 20160316115003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -226,13 +226,15 @@ ActiveRecord::Schema.define(version: 20160309163627) do
     t.integer  "pending_contribution_amount",                default: 0
     t.string   "stripe_customer_id"
     t.integer  "current_payment_id"
-    t.decimal  "weekly_budget"
+    t.integer  "weekly_budget"
     t.integer  "current_streak",                             default: 0
     t.integer  "total_contributions"
     t.string   "device_token"
     t.string   "bank"
     t.boolean  "automatic_donations",                        default: false
     t.string   "profile_image_url"
+    t.integer  "amount_contributed_this_period",             default: 0
+    t.datetime "budget_period_start_time"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree

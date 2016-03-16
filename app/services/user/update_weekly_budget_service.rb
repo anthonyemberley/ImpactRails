@@ -2,6 +2,8 @@ class UpdateWeeklyBudgetService < Aldous::Service
 	
 	def initialize(params, user)
 		@value = params[:value]
+		@value = @value.to_f
+		@value = @value*100
 		@user = user
 	end
 
@@ -17,7 +19,7 @@ class UpdateWeeklyBudgetService < Aldous::Service
 	private 
 
 	def update_user
-		@user.update_attribute(:weekly_budget, @value.to_f) 
+		@user.update_attribute(:weekly_budget, @value.to_i) 
 	end
 
 end
