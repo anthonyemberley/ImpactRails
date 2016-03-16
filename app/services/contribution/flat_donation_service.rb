@@ -25,7 +25,6 @@ class FlatDonationService < Aldous::Service
 		puts "Donating: "+@amount.to_s
 		if contribution.save
 			update_contribution_amount(contribution)
-			update_weekly_budget
 			update_contribution_streak
 			puts "successfully incremented amount"
 			Result::Success.new(result: contribution)
@@ -44,20 +43,6 @@ class FlatDonationService < Aldous::Service
 		end
 	end
 
-
-	def update_weekly_budget
-		if @user.budget_period_start_time.nil?
-			@user.update_attribute(:budget_period_start_time,Time.now)
-		end
-		last_budget_start_period = @user.budget_period_start_time
-		more_than_a_week = last_budget_start_period + 7.days < Time.now
-		if more_than_a_week
-			@user.update_attribute(:budget_period_start_time,Time.now)
-			@user.update_attribute(:amount_contributed_this_period,@amount)
-		else
-			@user.increment!(:amount_contributed_this_period,@amount)
-		end
-	end
 
 	def update_contribution_streak
 		#checking if streak should be updated
