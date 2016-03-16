@@ -15,7 +15,7 @@ class DeleteStripeCardService < Aldous::Service
 			puts "here2"
 			if card_array.count == 1
 				puts "here 3"
-				@current_user.update_attribute(:has_credit_card,false)
+				@user.update_attribute(:has_credit_card,false)
 			end
 			puts "here4"
 			customer = Stripe::Customer.retrieve(@user.stripe_customer_id)
