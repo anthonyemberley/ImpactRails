@@ -56,7 +56,7 @@ class FlatDonationService < Aldous::Service
 				Result::Failure.new(errors: "Above the weekly budget")
 			end
 
-		else if !more_than_a_week && !@user.weekly_budget.nil?
+		elsif !more_than_a_week && !@user.weekly_budget.nil?
 			if @amount + @user.amount_contributed_this_period > @user.weekly_budget
 				puts "not more than a week"
 				Result::Failure.new(errors: "Above the weekly budget")
