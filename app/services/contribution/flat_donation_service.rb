@@ -13,21 +13,6 @@ class FlatDonationService < Aldous::Service
 			Result::Failure.new(errors: "User does not have a current payment")
 		end
 
-		#check for weekly budget overages
-		last_budget_start_period = @user.budget_period_start_time.nil? ? Time.now : @user.budget_period_start_time
-		more_than_a_week = last_budget_start_period + 7.days < Time.now
-		if more_than_a_week && !@user.weekly_budget.nil?
-			if @amount > @user.weekly_budget 
-				Result::Failure.new(errors: "Above the weekly budget")
-			end
-
-		elsif !more_than_a_week && !@user.weekly_budget.nil?
-			if @amount + @user.amount_contributed_this_period > @user.weekly_budget
-				Result::Failure.new(errors: "Above the weekly budget")
-			end
-		end
-
-		Result::Failure.new(errors: "stopping now")
 
 		contribution = Contribution.create(
 							amount: @amount,

@@ -158,6 +158,21 @@ class Api::ContributionsController < Api::ApiController
 			return false
 		end
 
+		last_budget_start_period = @current_user.budget_period_start_time.nil? ? Time.now : @current_user.budget_period_start_time
+		more_than_a_week = last_budget_start_period + 7.days < Time.now
+		if more_than_a_week && !@current_user.weekly_budget.nil?
+			if amount > @current_user.weekly_budget 
+				render_error(:bad_request,"Above the weekly budget")
+				return false
+			end
+
+		elsif !more_than_a_week && !@current_user.weekly_budget.nil?
+			if amount + @current_user.amount_contributed_this_period > @current_user.weekly_budget
+				render_error(:bad_request,"Above the weekly budget")
+				return false	
+			end
+		end
+
 		return true
 
 	end
@@ -177,6 +192,7 @@ class Api::ContributionsController < Api::ApiController
 		end
 
 
+		#weekly budget checks
 		last_budget_start_period = @current_user.budget_period_start_time.nil? ? Time.now : @current_user.budget_period_start_time
 		more_than_a_week = last_budget_start_period + 7.days < Time.now
 		if more_than_a_week && !@current_user.weekly_budget.nil?
@@ -192,7 +208,7 @@ class Api::ContributionsController < Api::ApiController
 			end
 		end
 
-		return false
+		return true
 	end
 
 	def get_user_contributions
