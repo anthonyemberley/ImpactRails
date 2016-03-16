@@ -9,9 +9,14 @@ class DeleteStripeCardService < Aldous::Service
 	def perform
 		begin 
 			card = Stripe::Customer.retrieve(@user.stripe_customer_id).sources.data
-			if card.count == 1
+			puts "here1"
+			card_array = Array(card)
+			puts "here2"
+			if card_array.count == 1
+				puts "here 3"
 				@current_user.update_attribute(:has_credit_card,false)
 			end
+			puts "here4"
 			customer = Stripe::Customer.retrieve(@user.stripe_customer_id)
 			response = customer.sources.retrieve(@stripe_card_id).delete
 			Result::Success.new(result: response)
