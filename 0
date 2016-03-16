@@ -1,2 +1,0 @@
-      invoke  active_record
-      create    db/migrate/20160316113838_add_amount_contributed_this_period_to_users.rb

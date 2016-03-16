@@ -46,7 +46,7 @@ class FlatDonationService < Aldous::Service
 	end
 
 	def check_weekly_budget
-		last_budget_start_period = @user.budget_period_start_time? ? Time.now : @user.budget_period_start_time?
+		last_budget_start_period = @user.budget_period_start_time.nil? ? Time.now : @user.budget_period_start_time
 		puts "here1"
 		more_than_a_week = last_budget_start_period + 7.days < Time.now
 		puts "here2"
