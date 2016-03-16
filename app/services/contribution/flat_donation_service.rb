@@ -27,6 +27,8 @@ class FlatDonationService < Aldous::Service
 			end
 		end
 
+		Result::Failure.new(errors: "stopping now")
+
 		contribution = Contribution.create(
 							amount: @amount,
 							user_id: @user.id,
