@@ -6,6 +6,7 @@ class Api::ContributionsController < Api::ApiController
 		response = CreateStripeCustomerService.new(@current_user,params[:contribution][:stripe_generated_token]).perform
 		if response.success?
 			@current_user.update_attribute(:stripe_customer_id,response.result[:id])
+			@current_user.update_attribute(:has_credit_card,true)
 			render status: :ok , json: response.as_json
 		else
 			render_error(:unauthorized, response.errors)
@@ -141,6 +142,12 @@ class Api::ContributionsController < Api::ApiController
 	end
 
 	def can_make_payment?(amount)
+
+		if !@current_user.has_credit_card
+			render_error(:bad_request,"You cannot contribute until you have provided your credit card information")
+			return false
+		end
+
 		if amount > @current_user.pending_contribution_amount
 			render_error(:bad_request,"You cannot contribute more than the amount you've saved")
 			return false
@@ -150,7 +157,7 @@ class Api::ContributionsController < Api::ApiController
 			return false
 		end
 		if @current_user.plaid_token.blank?
-			render_error(:bad_request,"You cannot contribute until you have provided your credit card information")
+			render_error(:bad_request,"You cannot contribute until you have provided your bank")
 			return false
 		end
 		if @current_user.current_cause_id.nil?
@@ -158,6 +165,7 @@ class Api::ContributionsController < Api::ApiController
 			return false
 		end
 
+		#weekly budget checks
 		last_budget_start_period = @current_user.budget_period_start_time.nil? ? Time.now : @current_user.budget_period_start_time
 		more_than_a_week = last_budget_start_period + 7.days < Time.now
 		if more_than_a_week && !@current_user.weekly_budget.nil?
@@ -178,6 +186,11 @@ class Api::ContributionsController < Api::ApiController
 	end
 
 	def can_make_flat_donation?(amount)
+		if !@current_user.has_credit_card
+			render_error(:bad_request,"You cannot contribute until you have provided your credit card information")
+			return false
+		end
+
 		if @current_user.stripe_customer_id.blank?
 			render_error(:bad_request,"You cannot contribute until you have provided your credit card information")
 			return false

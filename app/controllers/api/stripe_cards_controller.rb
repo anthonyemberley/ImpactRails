@@ -12,6 +12,7 @@ class Api::StripeCardsController < Api::ApiController
 	def add_card
 		response = AddStripeCardCustomerService.new(@current_user,params[:contribution][:stripe_generated_token]).perform
 		if response.success?
+			@current_user.update_attribute(:has_credit_card,true)
 			render status: :ok , json: response.as_json
 		else
 			render_error(:unauthorized, response.errors)

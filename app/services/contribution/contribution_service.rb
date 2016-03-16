@@ -13,8 +13,6 @@ class ContributionService < Aldous::Service
 			Result::Failure.new(errors: "User does not have a current payment")
 		end
 
-		check_weekly_budget
-
 		puts "amount:" + @amount.to_s
 	    puts "user_id:" + @user.id.to_s
 		puts "user_name: " + @user.name.to_s
@@ -51,21 +49,6 @@ class ContributionService < Aldous::Service
 		@user.decrement!(:pending_contribution_amount, contribution.amount)
 	end
 
-	def check_weekly_budget
-		last_budget_start_period = @user.budget_period_start_time? ? Time.now : @user.budget_period_start_time?
-		more_than_a_week = last_budget_start_period + 7.days < Time.now
-		if more_than_a_week
-			if @amount > @user.weekly_budget 
-				Result::Failure.new(errors: "Above the weekly budget")
-			end
-
-		else
-			if @amount + @user.amount_contributed_this_period > @user.weekly_budget
-				Result::Failure.new(errors: "Above the weekly budget")
-			end
-		end
-
-	end
 
 	def update_weekly_budget
 		if @user.budget_period_start_time.nil?
