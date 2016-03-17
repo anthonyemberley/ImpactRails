@@ -1,6 +1,6 @@
 class Api::ContributionsController < Api::ApiController
 	CONTRIBUTIONS_USER_KEY = "contribution"
-	PAYMENT_THRESHOLD = 1000
+	PAYMENT_THRESHOLD = 500
 
 	def create_customer
 		response = CreateStripeCustomerService.new(@current_user,params[:contribution][:stripe_generated_token]).perform
