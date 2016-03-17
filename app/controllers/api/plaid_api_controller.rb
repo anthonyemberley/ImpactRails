@@ -79,6 +79,7 @@ class Api::PlaidApiController < Api::ApiController
 			transactions = response.result
 			render status: :ok , json: transactions.as_json
 		else
+			puts "Unable to Get Transactions"
 			render_error(status, response.errors)
 		end
 	end
