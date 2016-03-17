@@ -1,7 +1,7 @@
 class GetTransactionsService < Aldous::Service
-	def initialize(plaid_access_token, gte_date,current_user)
+	def initialize(plaid_access_token, gte_date, current_user)
 	        @plaid_access_token = plaid_access_token
-                @gte_date = if gte_date.nil? then 7.days.ago'''current_user.created_at''' else gte_date end
+                @gte_date = if gte_date.nil? then current_user.created_at  - 1.days else gte_date end
 	end
 
 	def perform
