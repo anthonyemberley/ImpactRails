@@ -94,7 +94,6 @@ class Api::SessionsController < Api::ApiController
 
 	def pay(amount)
 		'''Check if user has current active payment, create one if not'''
-		puts "here1"
 		no_current_payment = @current_user.current_payment_id.nil?
 		if no_current_payment
 			payment_response = CreatePaymentService.new(@current_user).perform
@@ -102,13 +101,11 @@ class Api::SessionsController < Api::ApiController
 				render_error(:bad_request,payment_response.errors)
 			end
 		end
-		puts "here2"
 
 		'''Save Contribution '''
 		if !can_make_payment?(amount)
 			return
 		end
-				puts "here3"
 
 		contribution_response = ContributionService.new(amount,@current_user).perform #STUB!
 		if contribution_response.failure? 
@@ -124,7 +121,6 @@ class Api::SessionsController < Api::ApiController
 			render_error(:bad_request,user_cause_response.errors)
 			return
 		end
-		puts "here4"
 
 		'''Update User and its active payment '''
 		user_payment_response = UpdateUserPaymentService.new(@current_user,contribution).perform #STUB!
@@ -132,7 +128,6 @@ class Api::SessionsController < Api::ApiController
 			render_error(:bad_request,user_payment_response.errors)
 			return
 		end
-		puts "here5"
 
 		'''Check if payment is above threshold, if it is then we create a stripe charge '''
 		payment = user_payment_response.result
