@@ -11,7 +11,7 @@ class CreateUserService < Aldous::Service
 	def perform
 		new_user = User.new(
 							email: @email,
-							name: @password,
+							name: @name,
 							device_token: @device_token,
 							password: @password
 						)
