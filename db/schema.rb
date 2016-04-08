@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160316132016) do
+ActiveRecord::Schema.define(version: 20160408004415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -236,6 +236,7 @@ ActiveRecord::Schema.define(version: 20160316132016) do
     t.integer  "amount_contributed_this_period",             default: 0
     t.datetime "budget_period_start_time"
     t.boolean  "has_credit_card",                            default: false
+    t.datetime "transactions_updated_at"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree

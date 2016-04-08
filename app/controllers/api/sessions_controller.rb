@@ -71,13 +71,14 @@ class Api::SessionsController < Api::ApiController
 
 	def get_current_user
 		plaid_access_token = @current_user.plaid_token
-		gte_date = @current_user.updated_at
+		gte_date = @current_user.transactions_updated_at
 		response = GetTransactionsService.new(plaid_access_token, gte_date).perform
 		if response.success?
 			transactions = response.result
 			contribution_object = CalculateContributionService.new(transactions).perform
 			if contribution_object.success?
 				money_accumulated_since_last_contribution = contribution_object.result
+				@current_user.update_attribute(:transactions_updated_at, Time.now)
 				if @current_user.automatic_donations && money_accumulated_since_last_contribution > 0
 					pay(money_accumulated_since_last_contribution)
 				else
