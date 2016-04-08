@@ -71,13 +71,14 @@ class Api::SessionsController < Api::ApiController
 
 	def get_current_user
 		plaid_access_token = @current_user.plaid_token
-		gte_date = @current_user.last_contribution_date
+		gte_date = @current_user.transactions_updated_at
 		response = GetTransactionsService.new(plaid_access_token, gte_date, @current_user).perform
 		if response.success?
 			transactions = response.result
 			contribution_object = CalculateContributionService.new(transactions).perform
 			if contribution_object.success?
 				money_accumulated_since_last_contribution = contribution_object.result
+				@current_user.update_attribute(:transactions_updated_at, Time.now)
 				if @current_user.automatic_donations && money_accumulated_since_last_contribution > 0
 					pay(money_accumulated_since_last_contribution)
 				else
@@ -94,7 +95,6 @@ class Api::SessionsController < Api::ApiController
 
 	def pay(amount)
 		'''Check if user has current active payment, create one if not'''
-		puts "here1"
 		no_current_payment = @current_user.current_payment_id.nil?
 		if no_current_payment
 			payment_response = CreatePaymentService.new(@current_user).perform
@@ -102,13 +102,11 @@ class Api::SessionsController < Api::ApiController
 				render_error(:bad_request,payment_response.errors)
 			end
 		end
-		puts "here2"
 
 		'''Save Contribution '''
 		if !can_make_payment?(amount)
 			return
 		end
-				puts "here3"
 
 		contribution_response = ContributionService.new(amount,@current_user).perform #STUB!
 		if contribution_response.failure? 
@@ -124,7 +122,6 @@ class Api::SessionsController < Api::ApiController
 			render_error(:bad_request,user_cause_response.errors)
 			return
 		end
-		puts "here4"
 
 		'''Update User and its active payment '''
 		user_payment_response = UpdateUserPaymentService.new(@current_user,contribution).perform #STUB!
@@ -132,7 +129,6 @@ class Api::SessionsController < Api::ApiController
 			render_error(:bad_request,user_payment_response.errors)
 			return
 		end
-		puts "here5"
 
 		'''Check if payment is above threshold, if it is then we create a stripe charge '''
 		payment = user_payment_response.result
