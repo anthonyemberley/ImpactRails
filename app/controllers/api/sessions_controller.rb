@@ -81,9 +81,11 @@ class Api::SessionsController < Api::ApiController
 				money_accumulated_since_last_contribution = contribution_object.result
 				@current_user.update_attribute(:transactions_updated_at, Time.now)
 				if @current_user.automatic_donations && money_accumulated_since_last_contribution > 0 && @current_user.amount_contributed_this_period + money_accumulated_since_last_contribution < @current_user.weekly_budget
-					pay(money_accumulated_since_last_contribution)
+					#pay(money_accumulated_since_last_contribution)
+					puts "test here"
 				else
-					@current_user.increment!(:pending_contribution_amount, money_accumulated_since_last_contribution)
+					#@current_user.increment!(:pending_contribution_amount, money_accumulated_since_last_contribution)
+					puts "test here 2"
 				end
 			
 			end
