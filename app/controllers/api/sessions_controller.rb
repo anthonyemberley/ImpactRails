@@ -83,9 +83,12 @@ class Api::SessionsController < Api::ApiController
 				if @current_user.automatic_donations && money_accumulated_since_last_contribution > 0 && @current_user.amount_contributed_this_period + money_accumulated_since_last_contribution < @current_user.weekly_budget
 					#pay(money_accumulated_since_last_contribution)
 					puts "test here"
+					puts "total money: " + money_accumulated_since_last_contribution.to_s
 				else
 					#@current_user.increment!(:pending_contribution_amount, money_accumulated_since_last_contribution)
 					puts "test here 2"
+					puts "total money: " + money_accumulated_since_last_contribution.to_s
+
 				end
 			
 			end
