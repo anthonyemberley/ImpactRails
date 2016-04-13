@@ -70,15 +70,22 @@ class Api::SessionsController < Api::ApiController
 
 
 	def get_current_user
+		puts "beginning"
 		plaid_access_token = @current_user.plaid_token
+		puts "plaid token: " + @current_user.plaid_token
 		update_weekly_budget_timeline()
+		puts "made it after update weekly budget"
 		gte_date = @current_user.transactions_updated_at
 		response = GetTransactionsService.new(plaid_access_token, gte_date, @current_user).perform
+		puts "made it after get transaction service3"
 		if response.success?
+			puts "response success"
 			transactions = response.result
 			contribution_object = CalculateContributionService.new(transactions).perform
+			puts "after calculate"
 			if contribution_object.success?
 				money_accumulated_since_last_contribution = contribution_object.result
+				puts "success and money accumulated"
 				if(money_accumulated_since_last_contribution > 0)
 					puts "greater than 0"
 					@current_user.update_attribute(:transactions_updated_at, Time.now)
@@ -104,14 +111,18 @@ class Api::SessionsController < Api::ApiController
 	end 
 
 	def update_weekly_budget_timeline()
+		puts "test"
 		if @current_user.budget_period_start_time.nil?
 			@current_user.update_attribute(:budget_period_start_time,Time.now)
 		end
+		puts "test"
 		last_budget_start_period = @current_user.budget_period_start_time
 		more_than_a_week = (last_budget_start_period + 7.days).utc < Time.now.utc
+		puts "test"
 		if more_than_a_week == true
 			@user.update_attribute(:budget_period_start_time,Time.now)
 		end
+		puts "test"
 		
 	end
 
