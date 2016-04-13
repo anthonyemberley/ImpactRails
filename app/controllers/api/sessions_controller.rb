@@ -72,7 +72,7 @@ class Api::SessionsController < Api::ApiController
 	def get_current_user
 		plaid_access_token = @current_user.plaid_token
 		update_weekly_budget_timeline()
-		gte_date = @current_user.transactions_updated_at
+		gte_date = 7.days.ago
 		response = GetTransactionsService.new(plaid_access_token, gte_date, @current_user).perform
 		if response.success?
 			transactions = response.result
@@ -95,7 +95,6 @@ class Api::SessionsController < Api::ApiController
 	end 
 
 	def update_weekly_budget_timeline()
-		puts "fuck this"
 		if @current_user.budget_period_start_time.nil?
 			@current_user.update_attribute(:budget_period_start_time,Time.now)
 		end
