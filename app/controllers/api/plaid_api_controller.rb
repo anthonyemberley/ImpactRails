@@ -12,6 +12,7 @@ class Api::PlaidApiController < Api::ApiController
 				}
 			else
 				@current_user.update_attribute(:plaid_token, plaid_token)
+				@current_user.update_attribute(:transactions_updated_at, Time.now)
 				render_default_user_response(@current_user)
 			end
 		else
@@ -27,6 +28,7 @@ class Api::PlaidApiController < Api::ApiController
 			if status == :ok
 				plaid_token = api_response.access_token
 				@current_user.update_attribute(:plaid_token, plaid_token)
+				@current_user.update_attribute(:transactions_updated_at, Time.now)
 				render_default_user_response(@current_user)
 			else
 				render status: status , json: api_response.pending_mfa_questions.as_json
