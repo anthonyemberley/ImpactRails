@@ -11,6 +11,9 @@ class Api::PlaidApiController < Api::ApiController
 					:questions => plaid_user.pending_mfa_questions,
 				}
 			else
+				if @current_user.plaid_token.present?
+					DeletePlaidUserService.new(plaid_token).perform
+				end
 				@current_user.update_attribute(:plaid_token, plaid_token)
 				@current_user.update_attribute(:transactions_updated_at, Time.now)
 				render_default_user_response(@current_user)
@@ -29,6 +32,9 @@ class Api::PlaidApiController < Api::ApiController
 				plaid_token = api_response.access_token
 				@current_user.update_attribute(:plaid_token, plaid_token)
 				@current_user.update_attribute(:transactions_updated_at, Time.now)
+				if @current_user.plaid_token.present?
+					DeletePlaidUserService.new(plaid_token).perform
+				end
 				render_default_user_response(@current_user)
 			else
 				render status: status , json: api_response.pending_mfa_questions.as_json
