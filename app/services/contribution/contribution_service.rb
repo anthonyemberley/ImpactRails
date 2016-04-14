@@ -56,7 +56,7 @@ class ContributionService < Aldous::Service
 		end
 		last_budget_start_period = @user.budget_period_start_time
 		more_than_a_week = last_budget_start_period + 7.days < Time.now
-		if more_than_a_week
+		if more_than_a_week == true
 			@user.update_attribute(:budget_period_start_time,Time.now)
 			@user.update_attribute(:amount_contributed_this_period,@amount)
 		else

@@ -15,6 +15,7 @@ class Api::PlaidApiController < Api::ApiController
 					DeletePlaidUserService.new(plaid_token).perform
 				end
 				@current_user.update_attribute(:plaid_token, plaid_token)
+				@current_user.update_attribute(:transactions_updated_at, Time.now)
 				render_default_user_response(@current_user)
 			end
 		else
@@ -30,6 +31,7 @@ class Api::PlaidApiController < Api::ApiController
 			if status == :ok
 				plaid_token = api_response.access_token
 				@current_user.update_attribute(:plaid_token, plaid_token)
+				@current_user.update_attribute(:transactions_updated_at, Time.now)
 				if @current_user.plaid_token.present?
 					DeletePlaidUserService.new(plaid_token).perform
 				end
@@ -79,10 +81,13 @@ class Api::PlaidApiController < Api::ApiController
 	def get_transactions
 		# this service uses a standard http request because the plaid-rails gem does not support it
 		plaid_access_token = @current_user.plaid_token
-		gte_date = @current_user.last_contribution_date
+		gte_date = 7.days.ago
 		response = GetTransactionsService.new(plaid_access_token, gte_date, @current_user).perform
 		if response.success?
 			transactions = response.result
+			if transactions.size > 25
+				transactions = transactions[0..25]
+			end
 			render status: :ok , json: transactions.as_json
 		else
 			puts "Unable to Get Transactions"

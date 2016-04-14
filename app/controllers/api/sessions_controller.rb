@@ -71,6 +71,7 @@ class Api::SessionsController < Api::ApiController
 
 	def get_current_user
 		plaid_access_token = @current_user.plaid_token
+		update_weekly_budget_timeline()
 		gte_date = @current_user.transactions_updated_at
 		response = GetTransactionsService.new(plaid_access_token, gte_date, @current_user).perform
 		if response.success?
@@ -78,12 +79,20 @@ class Api::SessionsController < Api::ApiController
 			contribution_object = CalculateContributionService.new(transactions).perform
 			if contribution_object.success?
 				money_accumulated_since_last_contribution = contribution_object.result
-				@current_user.update_attribute(:transactions_updated_at, Time.now)
-				if @current_user.automatic_donations && money_accumulated_since_last_contribution > 0
-					pay(money_accumulated_since_last_contribution)
-				else
-					@current_user.increment!(:pending_contribution_amount, money_accumulated_since_last_contribution)
+				if(money_accumulated_since_last_contribution > 0)
+					@current_user.update_attribute(:transactions_updated_at, Time.now)
+					if @current_user.automatic_donations && money_accumulated_since_last_contribution > 0 && @current_user.amount_contributed_this_period + money_accumulated_since_last_contribution < @current_user.weekly_budget
+						pay(money_accumulated_since_last_contribution)
+						puts "automatic donation"
+						puts "total donated: " + money_accumulated_since_last_contribution.to_s
+					else
+						@current_user.increment!(:pending_contribution_amount, money_accumulated_since_last_contribution)
+						puts "pending contribution"
+						puts "amount adding: " + money_accumulated_since_last_contribution.to_s
+
+					end
 				end
+				
 			
 			end
 		else
@@ -92,6 +101,18 @@ class Api::SessionsController < Api::ApiController
 		end
 		render_full_user_response(@current_user)
 	end 
+
+	def update_weekly_budget_timeline()
+		if @current_user.budget_period_start_time.nil?
+			@current_user.update_attribute(:budget_period_start_time,Time.now)
+		end
+		last_budget_start_period = @current_user.budget_period_start_time
+		more_than_a_week = (last_budget_start_period + 7.days).utc < Time.now.utc
+		if more_than_a_week == true
+			@current_user.update_attribute(:budget_period_start_time,Time.now)
+		end
+		
+	end
 
 	def pay(amount)
 		'''Check if user has current active payment, create one if not'''
