@@ -81,7 +81,7 @@ class Api::PlaidApiController < Api::ApiController
 	def get_transactions
 		# this service uses a standard http request because the plaid-rails gem does not support it
 		plaid_access_token = @current_user.plaid_token
-		gte_date = 7.days.ago
+		gte_date = @current_user.transactions_updated_at
 		response = GetTransactionsService.new(plaid_access_token, gte_date, @current_user).perform
 		if response.success?
 			transactions = response.result
