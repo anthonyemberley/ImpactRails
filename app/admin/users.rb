@@ -13,6 +13,7 @@ ActiveAdmin.register User do
   	column :total_amount_contributed
   	column :current_cause_amount_contributed
   	column :last_contribution_date
+    column :pending_contribution_amount
   	column :current_payment_id
   	column :weekly_budget
   	column :current_streak
