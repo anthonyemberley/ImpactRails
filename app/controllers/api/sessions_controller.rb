@@ -81,7 +81,7 @@ class Api::SessionsController < Api::ApiController
 				money_accumulated_since_last_contribution = contribution_object.result
 				if(money_accumulated_since_last_contribution > 0)
 					@current_user.update_attribute(:transactions_updated_at, Time.now)
-					if @current_user.automatic_donations && money_accumulated_since_last_contribution > 0 && @current_user.amount_contributed_this_period + money_accumulated_since_last_contribution < @current_user.weekly_budget
+					if @current_user.automatic_donations && @current_user.amount_contributed_this_period + money_accumulated_since_last_contribution < @current_user.weekly_budget
 						pay(money_accumulated_since_last_contribution)
 						puts "automatic donation"
 						puts "total donated: " + money_accumulated_since_last_contribution.to_s
@@ -129,7 +129,7 @@ class Api::SessionsController < Api::ApiController
 			return
 		end
 
-		contribution_response = ContributionService.new(amount,@current_user).perform #STUB!
+		contribution_response = AutomaticDonationContributionService.new(amount,@current_user).perform #STUB!
 		if contribution_response.failure? 
 			render_error(:bad_request,contribution_response.errors)
 			return
