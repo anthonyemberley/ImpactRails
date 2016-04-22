@@ -14,6 +14,7 @@ class Api::PlaidApiController < Api::ApiController
 				if @current_user.plaid_token.present?
 					DeletePlaidUserService.new(plaid_token).perform
 				end
+				puts "here is the bank name" + create_plaid_user_params[:bank_name]
 				@current_user.update_attribute(:bank_name, create_plaid_user_params[:bank_name])
 				@current_user.update_attribute(:plaid_token, plaid_token)
 				@current_user.update_attribute(:transactions_updated_at, Time.now)
