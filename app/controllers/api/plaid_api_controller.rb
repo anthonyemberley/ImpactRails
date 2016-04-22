@@ -2,6 +2,8 @@ class Api::PlaidApiController < Api::ApiController
 	PLAID_API_KEY = "plaid"
 
 	def create_plaid_user
+		puts "here is the bank name" + create_plaid_user_params[:bank_name]
+
 		response = CreatePlaidUserService.new(create_plaid_user_params).perform
 		if response.success?
 			plaid_user = response.result
