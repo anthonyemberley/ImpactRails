@@ -14,6 +14,7 @@ class Api::PlaidApiController < Api::ApiController
 				if @current_user.plaid_token.present?
 					DeletePlaidUserService.new(plaid_token).perform
 				end
+				@current_user.update_attribute(:bank_name, create_plaid_user_params[:bank_name])
 				@current_user.update_attribute(:plaid_token, plaid_token)
 				@current_user.update_attribute(:transactions_updated_at, Time.now)
 				render_default_user_response(@current_user)
@@ -108,7 +109,7 @@ class Api::PlaidApiController < Api::ApiController
 
 		'''PARAMS '''
 	def create_plaid_user_params 
-	    params.require(PLAID_API_KEY).permit(:username,:password,:bank_type, :pin)
+	    params.require(PLAID_API_KEY).permit(:username,:password,:bank_type, :pin, :bank_name)
 	end
 
 	def update_plaid_user_params
