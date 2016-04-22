@@ -9,7 +9,7 @@ class GetUserCategoriesService < Aldous::Service
 		user_categories.each do |user_category|
 			category_ids.push(user_category.category_id)
 		end
-		categories = Category.where(id: @category_ids)
+		categories = Category.where(id: category_ids)
 		Result::Success.new(result:categories)
 	end
 
