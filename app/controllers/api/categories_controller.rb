@@ -13,4 +13,14 @@ class Api::CategoriesController < Api::ApiController
 		end
 	end
 
+	def get_user_categories
+		response = GetUserCategoriesService.new(@current_user).perform
+		if response.success?
+			categories = response.result
+			render status: :ok , json: categories.as_json
+		else
+			render_error(:bad_request, response.errors)
+		end
+	end
+
 end

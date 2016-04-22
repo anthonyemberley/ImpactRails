@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
       '''Users '''
       get "/current_user/causes" => "causes#get_user_causes"
+      get "/current_user/categories" => "categories#get_user_categories"
       post "/current_user/causes/leave" => "users#leave_current_cause"
       post "/current_user/update/weekly_budget" => "users#update_weekly_budget"
       post "/current_user/update/clear_streak" => "users#clear_streak"
