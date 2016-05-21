@@ -49,6 +49,8 @@ gem 'frozen_record'
 gem 'rspec-rails'
 #for active admin
 gem 'activeadmin', github: 'activeadmin'
+#for image uploads in active admin
+gem 'carrierwave'	
 
 
 group :staging do

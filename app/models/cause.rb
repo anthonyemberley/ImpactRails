@@ -1,4 +1,6 @@
 class Cause < ActiveRecord::Base
+	mount_uploader :profile_image_url, ImageUploader
+
 	has_many :users, :through => :user_cause_relationships
 	has_many :user_cause_relationships
 	has_many :contributions
