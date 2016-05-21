@@ -25,7 +25,7 @@ ActiveAdmin.register Cause do
       f.input :latitude
     end
     f.inputs "Profile Image", :multipart => true do 
-      f.input :profile_image_url, :as => :file, :hint => image_tag(f.object.profile_image_url.url) 
+      f.input :profile_image_url, :as => :file, :hint => image_tag(f.object.profile_image_url.preview.url)  
       f.input :profile_image_url_cache, :as => :hidden 
     end
     f.actions

@@ -142,6 +142,7 @@ GEM
       mime-types (>= 1.16, < 3)
     mime-types (2.99)
     mimemagic (0.3.1)
+    mini_magick (4.5.1)
     mini_portile2 (2.0.0)
     minitest (5.8.3)
     multi_json (1.11.2)
@@ -279,6 +280,7 @@ DEPENDENCIES
   geokit-rails
   jbuilder (~> 2.0)
   jquery-rails
+  mini_magick
   pg
   plaid
   puma

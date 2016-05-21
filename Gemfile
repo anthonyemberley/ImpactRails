@@ -51,6 +51,8 @@ gem 'rspec-rails'
 gem 'activeadmin', github: 'activeadmin'
 #for image uploads in active admin
 gem 'carrierwave'	
+#for image resizing
+gem 'mini_magick'
 
 
 group :staging do
