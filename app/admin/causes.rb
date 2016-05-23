@@ -4,6 +4,7 @@ ActiveAdmin.register Cause do
                 :city, :state, :country, :longitude, :latitude
   config.sort_order = 'name_asc'
   config.per_page = 25
+
   form do |f|
     f.inputs "Create Cause" do
       f.input :name
@@ -12,7 +13,7 @@ ActiveAdmin.register Cause do
       f.input :number_of_contributors
       f.input :goal
       f.input :current_total
-      f.input :profile_image_url
+      # f.input :profile_image_url
       f.input :end_date
       f.input :organization_id
       f.input :organization_logo_url
@@ -22,6 +23,10 @@ ActiveAdmin.register Cause do
       f.input :country, :as => :string
       f.input :longitude
       f.input :latitude
+    end
+    f.inputs "Profile Image", :multipart => true do 
+      f.input :profile_image_url, :as => :file, :hint => image_tag(f.object.profile_image_url.preview.url)  
+      f.input :profile_image_url_cache, :as => :hidden 
     end
     f.actions
   end
